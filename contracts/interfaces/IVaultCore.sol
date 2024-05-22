@@ -11,12 +11,22 @@ interface IVaultCore {
 
     function passwordHashes(address) external view returns (uint256);
 
+    function crossChainNameService() external view returns (address);
+
+    function setCrossChainNameService(address _crossChainNameService) external;
+
     function releaseOwnership() external;
 
-    function vaultTokensFaucet() external;
+    function vaultTokensFaucet(address _receiver) external;
 
     function setUsername(string memory _username, uint256 _passwordHash)
         external;
+
+    function setUsernameByExternalRegistrar(
+        address _userAddress,
+        string memory _username,
+        uint256 _passwordHash
+    ) external;
 
     function resetUsernameAddress(
         string memory _username,

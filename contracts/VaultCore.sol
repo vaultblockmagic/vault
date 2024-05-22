@@ -19,8 +19,8 @@ import "./interfaces/IExternalAPIMFA.sol";
    `8b   d8'   ""     `Y8  88       88  88    88     
     `8b d8'    ,adPPPPP88  88       88  88    88     
      `888'     88,    ,88  "8a,   ,a88  88    88,    
-      `8'      `"8bbdP"Y8   `"YbbdP'Y8  88    "Y8*/  
-                                                     
+      `8'      `"8bbdP"Y8   `"YbbdP'Y8  88    "Y8*/
+
 contract VaultCore is ERC20 {
     mapping(address => string) public usernames;
     mapping(string => address) public usernameAddress;
@@ -38,6 +38,8 @@ contract VaultCore is ERC20 {
     MirroredERC721Factory public mirroredERC721Factory;
     MirroredERC20Factory public mirroredERC20Factory;
 
+    address public crossChainNameService;
+
     constructor(address _mfaManagerAddress, address _passwordVerifier)
         ERC20("vault", "VAULT")
     {
@@ -51,13 +53,25 @@ contract VaultCore is ERC20 {
         mirroredERC20Factory = new MirroredERC20Factory();
     }
 
+    function setCrossChainNameService(address _crossChainNameService) external {
+        require(
+            msg.sender == owner,
+            "Only owner can set CrossChainNameService"
+        );
+        crossChainNameService = _crossChainNameService;
+    }
+
     function releaseOwnership() public {
         require(msg.sender == owner, "Not owner");
         owner = address(0);
     }
 
-    function vaultTokensFaucet() public {
-        _transfer(address(this), msg.sender, 10000 * 10**18);
+    function vaultTokensFaucet(address _receiver) public {
+        require(
+            msg.sender == crossChainNameService || msg.sender == _receiver,
+            "Only CrossChainNameService or the user can trigger faucet"
+        );
+        _transfer(address(this), _receiver, 10000 * 10**18);
     }
 
     function setUsername(string memory _username, uint256 _passwordHash)
@@ -71,7 +85,27 @@ contract VaultCore is ERC20 {
         usernameAddress[_username] = msg.sender;
         passwordHashes[msg.sender] = _passwordHash;
 
-        vaultTokensFaucet();
+        vaultTokensFaucet(msg.sender);
+    }
+
+    function setUsernameByExternalRegistrar(
+        address _userAddress,
+        string memory _username,
+        uint256 _passwordHash
+    ) external {
+        require(
+            msg.sender == crossChainNameService,
+            "Only CrossChainNameService can set username"
+        );
+        require(
+            bytes(usernames[_userAddress]).length == 0,
+            "Username already set"
+        );
+        usernames[_userAddress] = _username;
+        usernameAddress[_username] = _userAddress;
+        passwordHashes[_userAddress] = _passwordHash;
+
+        vaultTokensFaucet(_userAddress);
     }
 
     function resetUsernameAddress(
@@ -129,7 +163,7 @@ contract VaultCore is ERC20 {
         usernameAddress[_username] = msg.sender;
         passwordHashes[msg.sender] = passwordHash;
 
-        vaultTokensFaucet();
+        vaultTokensFaucet(msg.sender);
     }
 
     function verifyPassword(

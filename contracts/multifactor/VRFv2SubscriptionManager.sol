@@ -1,46 +1,31 @@
 // SPDX-License-Identifier: MIT
-// An example of a consumer contract that also owns and manages the subscription
 pragma solidity ^0.8.7;
 
 import {LinkTokenInterface} from "@chainlink/contracts@1.1.0/src/v0.8/shared/interfaces/LinkTokenInterface.sol";
 import {VRFCoordinatorV2Interface} from "@chainlink/contracts@1.1.0/src/v0.8/vrf/interfaces/VRFCoordinatorV2Interface.sol";
 import {VRFConsumerBaseV2} from "@chainlink/contracts@1.1.0/src/v0.8/vrf/VRFConsumerBaseV2.sol";
 
-/**
- * Request testnet LINK and ETH here: https://faucets.chain.link/
- * Find information on LINK Token Contracts and get the latest ETH and LINK faucets here: https://docs.chain.link/docs/link-token-contracts/
- */
-
-/**
- * THIS IS AN EXAMPLE CONTRACT THAT USES HARDCODED VALUES FOR CLARITY.
- * THIS IS AN EXAMPLE CONTRACT THAT USES UN-AUDITED CODE.
- * DO NOT USE THIS CODE IN PRODUCTION.
- */
-
 contract VRFv2SubscriptionManager is VRFConsumerBaseV2 {
     VRFCoordinatorV2Interface COORDINATOR;
     LinkTokenInterface LINKTOKEN;
 
-    // Sepolia coordinator. For other networks,
     // see https://docs.chain.link/docs/vrf-contracts/#configurations
-    address vrfCoordinator = 0x50d47e4142598E3411aA864e08a44284e471AC6f;
+    address vrfCoordinator;
 
-    // Sepolia LINK token contract. For other networks, see
     // https://docs.chain.link/docs/vrf-contracts/#configurations
-    address link_token_contract = 0xb1D4538B4571d411F07960EF2838Ce337FE1E80E;
+    address link_token_contract;
 
     // The gas lane to use, which specifies the maximum gas price to bump to.
     // For a list of available gas lanes on each network,
     // see https://docs.chain.link/docs/vrf-contracts/#configurations
-    bytes32 keyHash =
-        0x027f94ff1465b3525f9fc03e9ff7d6d2c0953482246dd6ae07570c45d6631414;
+    bytes32 keyHash;
 
     // A reasonable default is 100000, but this value could be different
     // on other networks.
     uint32 callbackGasLimit = 100000;
 
     // The default is 3, but you can set this higher.
-    uint16 requestConfirmations = 1;
+    uint16 requestConfirmations;
 
     // For this example, retrieve 2 random values in one request.
     // Cannot exceed VRFCoordinatorV2.MAX_NUM_WORDS.
@@ -52,7 +37,17 @@ contract VRFv2SubscriptionManager is VRFConsumerBaseV2 {
     uint64 public s_subscriptionId;
     address s_owner;
 
-    constructor() VRFConsumerBaseV2(vrfCoordinator) {
+    constructor(
+        address _vrfCoordinator,
+        address _linkContract,
+        bytes32 _keyHash,
+        uint16 _requestConfirmations
+    ) VRFConsumerBaseV2(vrfCoordinator) {
+        vrfCoordinator = _vrfCoordinator;
+        link_token_contract = _linkContract;
+        keyHash = _keyHash;
+        requestConfirmations = _requestConfirmations;
+
         COORDINATOR = VRFCoordinatorV2Interface(vrfCoordinator);
         LINKTOKEN = LinkTokenInterface(link_token_contract);
         s_owner = msg.sender;
@@ -73,7 +68,7 @@ contract VRFv2SubscriptionManager is VRFConsumerBaseV2 {
     }
 
     function fulfillRandomWords(
-        uint256 /* requestId */,
+        uint256, /* requestId */
         uint256[] memory randomWords
     ) internal override {
         s_randomWords = randomWords;

@@ -728,6 +728,19 @@
 	},
 	{
 		"inputs": [],
+		"name": "crossChainNameService",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
 		"name": "decimals",
 		"outputs": [
 			{
@@ -1085,6 +1098,19 @@
 	{
 		"inputs": [
 			{
+				"internalType": "address",
+				"name": "_crossChainNameService",
+				"type": "address"
+			}
+		],
+		"name": "setCrossChainNameService",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
 				"internalType": "string",
 				"name": "_username",
 				"type": "string"
@@ -1096,6 +1122,29 @@
 			}
 		],
 		"name": "setUsername",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_userAddress",
+				"type": "address"
+			},
+			{
+				"internalType": "string",
+				"name": "_username",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_passwordHash",
+				"type": "uint256"
+			}
+		],
+		"name": "setUsernameByExternalRegistrar",
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
@@ -1321,7 +1370,13 @@
 		"type": "function"
 	},
 	{
-		"inputs": [],
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_receiver",
+				"type": "address"
+			}
+		],
 		"name": "vaultTokensFaucet",
 		"outputs": [],
 		"stateMutability": "nonpayable",
