@@ -19,20 +19,18 @@ interface IVaultCore {
 
     function vaultTokensFaucet(address _receiver) external;
 
-    function setUsername(string memory _username, uint256 _passwordHash)
-        external;
-
-    function setUsernameByExternalRegistrar(
-        address _userAddress,
+    function setUsername(
         string memory _username,
+        address _userAddress,
         uint256 _passwordHash
     ) external;
 
     function resetUsernameAddress(
         string memory _username,
-        uint256 passwordHash,
-        uint256 timestamp,
-        ProofParameters calldata params
+        address _newUserAddress,
+        uint256 _passwordHash,
+        uint256 _timestamp,
+        ProofParameters calldata _params
     ) external;
 
     function verifyPassword(

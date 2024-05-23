@@ -1023,13 +1023,18 @@
 				"type": "string"
 			},
 			{
+				"internalType": "address",
+				"name": "_newUserAddress",
+				"type": "address"
+			},
+			{
 				"internalType": "uint256",
-				"name": "passwordHash",
+				"name": "_passwordHash",
 				"type": "uint256"
 			},
 			{
 				"internalType": "uint256",
-				"name": "timestamp",
+				"name": "_timestamp",
 				"type": "uint256"
 			},
 			{
@@ -1086,7 +1091,7 @@
 					}
 				],
 				"internalType": "struct ProofParameters",
-				"name": "params",
+				"name": "_params",
 				"type": "tuple"
 			}
 		],
@@ -1116,35 +1121,17 @@
 				"type": "string"
 			},
 			{
+				"internalType": "address",
+				"name": "_userAddress",
+				"type": "address"
+			},
+			{
 				"internalType": "uint256",
 				"name": "_passwordHash",
 				"type": "uint256"
 			}
 		],
 		"name": "setUsername",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "_userAddress",
-				"type": "address"
-			},
-			{
-				"internalType": "string",
-				"name": "_username",
-				"type": "string"
-			},
-			{
-				"internalType": "uint256",
-				"name": "_passwordHash",
-				"type": "uint256"
-			}
-		],
-		"name": "setUsernameByExternalRegistrar",
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"

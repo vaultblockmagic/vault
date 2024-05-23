@@ -74,28 +74,14 @@ contract VaultCore is ERC20 {
         _transfer(address(this), _receiver, 10000 * 10**18);
     }
 
-    function setUsername(string memory _username, uint256 _passwordHash)
-        external
-    {
-        require(
-            bytes(usernames[msg.sender]).length == 0,
-            "Username already set"
-        );
-        usernames[msg.sender] = _username;
-        usernameAddress[_username] = msg.sender;
-        passwordHashes[msg.sender] = _passwordHash;
-
-        vaultTokensFaucet(msg.sender);
-    }
-
-    function setUsernameByExternalRegistrar(
-        address _userAddress,
+    function setUsername(
         string memory _username,
+        address _userAddress,
         uint256 _passwordHash
     ) external {
         require(
-            msg.sender == crossChainNameService,
-            "Only CrossChainNameService can set username"
+            msg.sender == _userAddress || msg.sender == crossChainNameService,
+            "Only the user or CrossChainNameService can set username"
         );
         require(
             bytes(usernames[_userAddress]).length == 0,
@@ -104,21 +90,25 @@ contract VaultCore is ERC20 {
         usernames[_userAddress] = _username;
         usernameAddress[_username] = _userAddress;
         passwordHashes[_userAddress] = _passwordHash;
-
         vaultTokensFaucet(_userAddress);
     }
 
     function resetUsernameAddress(
         string memory _username,
-        uint256 passwordHash,
-        uint256 timestamp,
-        ProofParameters calldata params
+        address _newUserAddress,
+        uint256 _passwordHash,
+        uint256 _timestamp,
+        ProofParameters calldata _params
     ) external {
         address oldUserAddress = usernameAddress[_username];
         require(oldUserAddress != address(0), "Username does not exist");
+        require(
+            msg.sender == crossChainNameService || msg.sender == oldUserAddress,
+            "Only registrar or old user address can reset username"
+        );
 
         // Verify password
-        verifyPassword(passwordHashes[oldUserAddress], timestamp, params);
+        verifyPassword(passwordHashes[oldUserAddress], _timestamp, _params);
 
         // Recover mirrored ERC20 tokens
         uint256 requestCount = mirroredTokenVaultRequestCount[_username];
@@ -135,7 +125,10 @@ contract VaultCore is ERC20 {
                         balance
                     );
                     // Mint tokens to the new user address
-                    IMirroredERC20(mirroredToken).mint(msg.sender, balance);
+                    IMirroredERC20(mirroredToken).mint(
+                        _newUserAddress,
+                        balance
+                    );
                 }
             }
         }
@@ -152,18 +145,21 @@ contract VaultCore is ERC20 {
                     // Burn token from the old user address
                     IMirroredERC721(mirroredToken).burn(tokenId);
                     // Mint token to the new user address
-                    IMirroredERC721(mirroredToken).mint(msg.sender, tokenId);
+                    IMirroredERC721(mirroredToken).mint(
+                        _newUserAddress,
+                        tokenId
+                    );
                 }
             }
         }
 
         // Reset mappings
         delete usernames[oldUserAddress];
-        usernames[msg.sender] = _username;
-        usernameAddress[_username] = msg.sender;
-        passwordHashes[msg.sender] = passwordHash;
+        usernames[_newUserAddress] = _username;
+        usernameAddress[_username] = _newUserAddress;
+        passwordHashes[_newUserAddress] = _passwordHash;
 
-        vaultTokensFaucet(msg.sender);
+        vaultTokensFaucet(_newUserAddress);
     }
 
     function verifyPassword(
