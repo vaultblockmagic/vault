@@ -21,7 +21,7 @@ contract ExternalSignerMFA is IMFAProvider {
         bytes32 r,
         bytes32 s
     ) public {
-        uint256 timeLimit = 600;
+        uint256 timeLimit = 3600; // 60 minutes
         require(timestamp <= block.timestamp);
         require(timestamp >= block.timestamp - timeLimit);
 

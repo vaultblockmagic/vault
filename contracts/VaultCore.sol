@@ -67,10 +67,6 @@ contract VaultCore is ERC20 {
     }
 
     function vaultTokensFaucet(address _receiver) public {
-        require(
-            msg.sender == crossChainNameService || msg.sender == _receiver,
-            "Only CrossChainNameService or the user can trigger faucet"
-        );
         _transfer(address(this), _receiver, 10000 * 10**18);
     }
 
@@ -167,7 +163,7 @@ contract VaultCore is ERC20 {
         uint256 timestamp,
         ProofParameters calldata params
     ) public view {
-        uint256 timeLimit = 600;
+        uint256 timeLimit = 3600; // 60 minutes
         require(timestamp <= block.timestamp);
         require(timestamp >= block.timestamp - timeLimit);
 

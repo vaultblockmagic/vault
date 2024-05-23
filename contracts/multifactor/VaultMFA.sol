@@ -41,7 +41,7 @@ contract VaultMFA is IMFAProvider {
         uint256 timestamp,
         ProofParameters calldata params
     ) external {
-        uint256 timeLimit = 600;
+        uint256 timeLimit = 3600; // 60 minutes
         require(timestamp <= block.timestamp);
         require(timestamp >= block.timestamp - timeLimit);
 
