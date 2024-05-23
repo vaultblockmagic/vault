@@ -20,6 +20,7 @@
    - Authorize the ExternalAPIMFA contract in the VRF contract.
    - Register ExternalAPIMFA contract for a custom-logic automation trigger and fund on automation.chain.link.
    - Register ExternalAPIMFA contract as a chainlink function and fund on functions.chain.link.
+   - Deploy CrossChainNameService.sol with vaultCore contract address and appropriate parameters.
 
 ## ExternalSignerMFA Addresses:
 
@@ -30,6 +31,24 @@
 - ExternalSignerMFA 2:
   - Address: 0x2222E49A58e8238c864b7512e6C87886Aa0B6318
   - Key: a76c92f6a95175ca91b6f8def794793ad5e28517e5bbdf870ca3eeb9da1816bb
+
+## Avalanche Fuji CCIP values:
+
+- Router address: 0xF694E193200268f9a4868e4Aa017A0118C9a8177
+- Chain selector: 14767482510784806043
+- LINK address: 0x0b9d5D9136855f6FEc3c0993feE6E9CE8a297846
+
+## Arbitrum Sepolia CCIP values:
+
+- Router address: 0x2a9C5afB0d0e4BAb2BCdaE109EC4b0c4Be15a165
+- Chain selector: 3478487238524512106
+- LINK address: 0xb1D4538B4571d411F07960EF2838Ce337FE1E80E
+
+## Avalanche Fuji VRF values:
+
+- Key hash: 0x354d2f95da55398f44b7cff77da56283d9c6c829a4bdf1bbcaf2ad6a4d081f61
+- VRF coordinator: 0x2eD832Ba664535e5886b75D64C46EB9a228C2610
+- Minimum Confirmations: 1 
 
 ## Arbitrum Sepolia VRF values:
 
@@ -84,6 +103,12 @@
    - Ensure that mirrored assets can be locked permanently and temporarily (moreso a `MirroredERC20/721` test).
    - Ensure that mirrored assets can be locked, batch locked, unlocked, batch unlocked.
 
-5. **End-to-End Tests:**
+6. **Test the CrossChainNameService Contract:**
+   - Deploy CrossChainNameService on multiple chains.
+   - Set the origin policies and destination chains on each contract on each chain.
+   - Ensure `register` succeeds via registrar and works multichain.
+   - Ensure `recover` succeeds via registrar and works multichain.
+
+7. **End-to-End Tests:**
    - Perform a complete flow of locking an asset, setting MFA data, and unlocking the asset using the vaultCore contract.
    - Verify that the MFA verification process works correctly and the assets are transferred as expected.
