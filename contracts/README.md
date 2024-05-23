@@ -21,6 +21,10 @@
    - Register ExternalAPIMFA contract for a custom-logic automation trigger and fund on automation.chain.link.
    - Register ExternalAPIMFA contract as a chainlink function and fund on functions.chain.link.
    - Deploy CrossChainNameService.sol with vaultCore contract address and appropriate parameters.
+   - Fund CrossChainNameService contract with native ETH asset.
+   - Call `setCrossChainNameService` in vaultCore contract.
+   - Call `enableChain` and `enableSource` in CrossChainNameService to enable valid destination and source policies. 
+   - Set the registrar address in CrossChainNameService.
 
 ## ExternalSignerMFA Addresses:
 
@@ -104,8 +108,6 @@
    - Ensure that mirrored assets can be locked, batch locked, unlocked, batch unlocked.
 
 6. **Test the CrossChainNameService Contract:**
-   - Deploy CrossChainNameService on multiple chains.
-   - Set the origin policies and destination chains on each contract on each chain.
    - Ensure `register` succeeds via registrar and works multichain.
    - Ensure `recover` succeeds via registrar and works multichain.
 
