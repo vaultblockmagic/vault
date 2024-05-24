@@ -46,15 +46,18 @@ contract CrossChainNameService is CCIPReceiver, OwnerIsCreator {
     mapping(uint64 => mapping(address => bool)) public sourcePolicies;
     address public registrar;
     IVaultCore public vaultCore;
+    address public paymentFeeToken;
 
     constructor(
         address _router,
         address _registrar,
-        address _vaultCore
+        address _vaultCore,
+        address _feeToken
     ) CCIPReceiver(_router) {
         i_router = IRouterClient(_router);
         registrar = _registrar;
         vaultCore = IVaultCore(_vaultCore);
+        paymentFeeToken = _feeToken; // set as 0x0000000000000000000000000000 for native token
     }
 
     receive() external payable {}
@@ -110,7 +113,7 @@ contract CrossChainNameService is CCIPReceiver, OwnerIsCreator {
                 extraArgs: Client._argsToBytes(
                     Client.EVMExtraArgsV1({gasLimit: 200_000})
                 ),
-                feeToken: address(0)
+                feeToken: paymentFeeToken
             });
 
             i_router.ccipSend{
@@ -153,7 +156,7 @@ contract CrossChainNameService is CCIPReceiver, OwnerIsCreator {
                 extraArgs: Client._argsToBytes(
                     Client.EVMExtraArgsV1({gasLimit: 500_000})
                 ),
-                feeToken: address(0)
+                feeToken: paymentFeeToken
             });
 
             i_router.ccipSend{
