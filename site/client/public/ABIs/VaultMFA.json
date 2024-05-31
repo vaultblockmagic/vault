@@ -1,0 +1,236 @@
+[
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_passwordVerifier",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "_VaultCoreAddress",
+				"type": "address"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "MFARequestData",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "success",
+				"type": "bool"
+			},
+			{
+				"internalType": "uint256",
+				"name": "timestamp",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "MFARequestPasswordHashes",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "VaultCoreAddress",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "username",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "requestId",
+				"type": "uint256"
+			}
+		],
+		"name": "getMFAData",
+		"outputs": [
+			{
+				"components": [
+					{
+						"internalType": "bool",
+						"name": "success",
+						"type": "bool"
+					},
+					{
+						"internalType": "uint256",
+						"name": "timestamp",
+						"type": "uint256"
+					}
+				],
+				"internalType": "struct IMFAProvider.MFAData",
+				"name": "",
+				"type": "tuple"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getMFAType",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "pure",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "username",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "requestId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "timestamp",
+				"type": "uint256"
+			},
+			{
+				"components": [
+					{
+						"internalType": "uint256",
+						"name": "pA0",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "pA1",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "pB00",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "pB01",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "pB10",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "pB11",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "pC0",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "pC1",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "pubSignals0",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "pubSignals1",
+						"type": "uint256"
+					}
+				],
+				"internalType": "struct ProofParameters",
+				"name": "params",
+				"type": "tuple"
+			}
+		],
+		"name": "setMFAData",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "username",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "requestId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "requestPasswordHash",
+				"type": "uint256"
+			}
+		],
+		"name": "setRequestPasswordHash",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	}
+]

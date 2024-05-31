@@ -114,12 +114,12 @@ def lambda_handler(event, context):
             totp_one = pyotp.TOTP(secret_one)
             totp_two = pyotp.TOTP(secret_two)
             qr_uri_one = totp_one.provisioning_uri(
-                name=f"{username}@Google MFA vault.token",
-                issuer_name="Google MFA vault.token",
+                name=f"{username}@vault.token",
+                issuer_name="Vault Google MFA",
             )
             qr_uri_two = totp_two.provisioning_uri(
-                name=f"{username}@Microsoft MFA vault.token",
-                issuer_name="Microsoft MFA vault.token",
+                name=f"{username}@vault.token",
+                issuer_name="Vault Microsoft MFA",
             )
 
             response = {
