@@ -82,6 +82,6 @@ contract VaultMFA is IMFAProvider {
     }
 
     function getMFAType() external pure override returns (string memory) {
-        return "vaultMFA";
+        return "VaultMFA";
     }
 }

@@ -377,7 +377,7 @@ contract VaultCore is ERC20 {
             );
             string memory mfaType = mfaProvider.getMFAType();
 
-            if (compareStrings(mfaType, "vaultMFA")) {
+            if (compareStrings(mfaType, "VaultMFA")) {
                 IVaultMFA(address(mfaProvider)).setRequestPasswordHash(
                     username,
                     requestId,
@@ -521,7 +521,7 @@ contract VaultCore is ERC20 {
             );
             string memory mfaType = mfaProvider.getMFAType();
 
-            if (compareStrings(mfaType, "vaultMFA")) {
+            if (compareStrings(mfaType, "VaultMFA")) {
                 IVaultMFA(address(mfaProvider)).setRequestPasswordHash(
                     username,
                     requestId,

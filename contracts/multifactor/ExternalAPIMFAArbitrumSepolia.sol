@@ -25,7 +25,7 @@ contract ExternalAPIMFA is
     mapping(bytes32 => string) public functionRequestIdToResponse;
     mapping(bytes32 => uint256) public functionRequestIdToTimestamp;
 
-    uint256 public WINDOW_SIZE = 20000;
+    uint256 public WINDOW_SIZE = 50000;
     mapping(uint256 => bool) public windowVRFRequested;
     mapping(uint256 => uint256) public windowToVRFRequestIds;
 
@@ -42,23 +42,21 @@ contract ExternalAPIMFA is
         bytes err
     );
 
-    address router;
+    address router = 0x234a5fb5Bd614a7AA2FfAB244D603abFA0Ac5C5C;
 
     string source =
         'const apiResponse = await Functions.makeHttpRequest({"url": \'https://kqysqbam9h.execute-api.ap-southeast-2.amazonaws.com/prod/signPassword\',"method": "POST","data": {"username": args[0],"passwordHash": args[1],"salt": args[2]}});if (apiResponse.error) {throw Error("Request failed: " + args[0] + " " + args[1] + " " + args[2]);} const { data } = apiResponse;return Functions.encodeString(data.username+"-"+data.salt+"-"+data.result);';
 
     uint32 gasLimit = 300000;
 
-    bytes32 donID;
+    bytes32 donID =
+        0x66756e2d617262697472756d2d7365706f6c69612d3100000000000000000000;
 
-    constructor(
-        address _vrfAddress,
-        address _router,
-        bytes32 _donID
-    ) FunctionsClient(router) ConfirmedOwner(msg.sender) {
+    constructor(address _vrfAddress)
+        FunctionsClient(router)
+        ConfirmedOwner(msg.sender)
+    {
         vrf = IVRF(_vrfAddress);
-        router = _router;
-        donID = _donID;
     }
 
     function setWindowSize(uint256 _window) public onlyOwner {
@@ -201,9 +199,9 @@ contract ExternalAPIMFA is
             compareStrings(parsedResult, "True") &&
             stringToUint(parsedSalt) == salt
         ) {
-            return MFAData(true, timestamp);
+            return MFAData(true, block.timestamp);
         } else {
-            return MFAData(false, timestamp);
+            return MFAData(false, block.timestamp);
         }
     }
 

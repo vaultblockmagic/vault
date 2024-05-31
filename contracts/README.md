@@ -10,21 +10,21 @@
    - Deploy the vaultMFA contract, passing the address of the Verifier contract and the address of the vaultCore contract.
    - Set the vaultMFA, vaultCore Address in the MFAManager contract by calling the appropriate set functions.
    - Deploy the ExternalSignerMFA contracts (for 0x1111 and 0x2222), passing the address of the external signer.
-   - Deploy TestERC20.
-   - Deploy TestERC721.
    - Deploy VRFv2SubscriptionManager.sol and obtain the subscription ID.
    - Deploy VRF.sol with subscription ID.
    - Add the VRF contract as a consumer in VRFv2SubscriptionManager.
    - Fund the subscription on vrf.chain.link.
-   - Deploy ExternalAPIMFA.sol passing the address of the deployed VRF contract.
+   - Deploy ExternalAPIMFA(ArbitrumSepolia|AvalancheFuji).sol passing the address of the deployed VRF contract.
    - Authorize the ExternalAPIMFA contract in the VRF contract.
    - Register ExternalAPIMFA contract for a custom-logic automation trigger and fund on automation.chain.link.
    - Register ExternalAPIMFA contract as a chainlink function and fund on functions.chain.link.
    - Deploy CrossChainNameService.sol with vaultCore contract address and appropriate parameters.
-   - Fund CrossChainNameService contract with native ETH asset.
+   - Fund CrossChainNameService contract with native asset (ETH/AVAX, etc.).
    - Call `setCrossChainNameService` in vaultCore contract.
    - Call `enableChain` and `enableSource` in CrossChainNameService to enable valid destination and source policies. 
-   - Set the registrar address in CrossChainNameService.
+   - Fund the registrar in native asset
+   - Deploy TestERC20 (if needed/wanted for test tokens).
+   - Deploy TestERC721 (if needed/wanted for test tokens).
 
 ## ExternalSignerMFA Addresses:
 
@@ -36,26 +36,24 @@
   - Address: 0x2222E49A58e8238c864b7512e6C87886Aa0B6318
   - Key: a76c92f6a95175ca91b6f8def794793ad5e28517e5bbdf870ca3eeb9da1816bb
 
-## Avalanche Fuji CCIP values:
+## Avalanche Fuji chainlink variables:
 
-- Router address: 0xF694E193200268f9a4868e4Aa017A0118C9a8177
+- CCIP Router address: 0xF694E193200268f9a4868e4Aa017A0118C9a8177
 - Chain selector: 14767482510784806043
 - LINK address: 0x0b9d5D9136855f6FEc3c0993feE6E9CE8a297846
-
-## Arbitrum Sepolia CCIP values:
-
-- Router address: 0x2a9C5afB0d0e4BAb2BCdaE109EC4b0c4Be15a165
-- Chain selector: 3478487238524512106
-- LINK address: 0xb1D4538B4571d411F07960EF2838Ce337FE1E80E
-
-## Avalanche Fuji VRF values:
-
+- Functions router: 0xA9d587a00A31A52Ed70D6026794a8FC5E2F5dCb0
+- DON ID: 0x66756e2d6176616c616e6368652d66756a692d31000000000000000000000000
 - Key hash: 0x354d2f95da55398f44b7cff77da56283d9c6c829a4bdf1bbcaf2ad6a4d081f61
 - VRF coordinator: 0x2eD832Ba664535e5886b75D64C46EB9a228C2610
 - Minimum Confirmations: 1 
 
-## Arbitrum Sepolia VRF values:
+## Arbitrum Sepolia chainlink variables:
 
+- CCIP Router address: 0x2a9C5afB0d0e4BAb2BCdaE109EC4b0c4Be15a165
+- Chain selector: 3478487238524512106
+- LINK address: 0xb1D4538B4571d411F07960EF2838Ce337FE1E80E
+- Functions router: 0x234a5fb5Bd614a7AA2FfAB244D603abFA0Ac5C5C
+- DON ID: 0x66756e2d617262697472756d2d7365706f6c69612d3100000000000000000000
 - Key hash: 0x027f94ff1465b3525f9fc03e9ff7d6d2c0953482246dd6ae07570c45d6631414
 - VRF coordinator: 0x50d47e4142598E3411aA864e08a44284e471AC6f
 - Minimum Confirmations: 1 
@@ -114,3 +112,44 @@
 7. **End-to-End Tests:**
    - Perform a complete flow of locking an asset, setting MFA data, and unlocking the asset using the vaultCore contract.
    - Verify that the MFA verification process works correctly and the assets are transferred as expected.
+
+---
+
+## Block Explorers:
+
+- https://testnet.snowtrace.io
+- https://sepolia.arbiscan.io
+
+## Addresses (on Avalanche Fuji & Arbitrum Sepolia):
+
+-  Groth16Verifier:           0xab9fb9F3eC81292b518bfd466B354f24A2018a74
+-  MFAManager:                0xf38DA3627847D5eECB37B0C5573F7f327bba8cE0
+-  vaultCore:                 0xA2673321CC16643103212C52A3118d52D69866A1
+-  vaultMFA:                  0xB9506dC2B7294842072E11b6BAED550DA3d8F455
+-  ExternalSignerMFA:         0xA755E55b2a177d626B6e5db8C400aEc9C7Bc0Eb5
+-  ExternalSignerMFA:         0x329e4D3Cb8Fe41cfbB6D58DE9CDcef59E0eb8201
+-  VRF:                       0xE03ad403EA33131CcB41E28f59B7AEA380561934
+-  VRFV2SubscriptionManager:  0x801B1EEA2B48c0c7c88eCB8faD676523EDC3Cc78
+-  ExternalAPIMFA:            0x661B556d4756C835D3A72779aCB32612E4243B56
+-  CCNS:                      0x8C3e8e3AC6d64382f8AEE1148bFb8fF7Ab374654
+-  TokenDataRetriever:        0xF528968d8dF0C638e0aF5a3f3a62a33BE9D18F95
+
+---
+## Chainlink Links - Arbitrum Sepolia:
+
+- https://ccip.chain.link/address/0x8c3e8e3ac6d64382f8aee1148bfb8ff7ab374654 (CCIP CCNS)
+- https://vrf.chain.link/arbitrum-sepolia/393 (consumer 0xE03ad403EA33131CcB41E28f59B7AEA380561934 used in ExternalAPIMFA)
+- https://automation.chain.link/arbitrum-sepolia/42159563703683229980886531494566954465680530119000057758684849594520480333437
+- https://functions.chain.link/arbitrum-sepolia/83
+
+## Chainlink Links - Avalanche Fuji:
+
+- https://ccip.chain.link/address/0x8c3e8e3ac6d64382f8aee1148bfb8ff7ab374654 (CCIP CCNS)
+- https://vrf.chain.link/fuji/2807 (consumer 0xE03ad403EA33131CcB41E28f59B7AEA380561934 used in ExternalAPIMFA)
+- https://automation.chain.link/fuji/90525461017520113338357357821487944620473985164473663587279624792819107389409
+- https://functions.chain.link/fuji/8928
+
+The automation for Fuji link doesn't seem to reflect the true spending/transactions - 
+
+https://testnet.snowtrace.io/address/0x661B556d4756C835D3A72779aCB32612E4243B56 - Address of ExternalAPIMFA
+https://testnet.snowtrace.io/tx/0xf394d6d240cdcb4f248411ebae69c93bc57d980dae057b95ce0a033b6efe2411/eventlog?chainId=43113 - Internal Tx with Upkeep performed
