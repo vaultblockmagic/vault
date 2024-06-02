@@ -73,7 +73,7 @@ export default function HeroSection({ goToNext }) {
   useEffect(() => {
     const calculateScale = () => {
       if (winWidth >= 1024) {
-        const bottomMargin = 30;
+        const bottomMargin = 80;
         const availableHeight = winHeight - bottomMargin;
         const newScale = availableHeight / totalHeight;
         setScale(newScale);
@@ -107,32 +107,38 @@ export default function HeroSection({ goToNext }) {
         transformOrigin: "top center",
       }}
     >
-      <div className="mt-8 backdrop-filter-[12px] inline-flex h-6 items-center justify-between rounded-full border border-white/5 bg-white/10 px-2 text-xs text-white transition-all ease-in hover:cursor-pointer hover:bg-white/20 group gap-1 translate-y-[-0.5rem] animate-fade-in opacity-0 [--animation-delay:500ms]">
-        <TextShimmer className="inline-flex items-center justify-center ">
-          <span>✨ Learn more →</span>
-        </TextShimmer>
-      </div>
       <div>
-      <BlurIn
-        word={
-          <>
-            <span style={{ ...metallicStyle, fontSize: "1.1em" }}>Vault</span>
-            :{" "}
-            <span style={{ fontSize: "1.1em", fontWeight: 520 }}>
-              Uncompromising asset security & account abstraction
-            </span>
-          </>
-        }
-        className="bg-gradient-to-br from-white from-10% to-white/30 bg-clip-text py-2 mt-2 mb-4 text-3xl sm:text-3xl md:text-4xl lg:text-6xl leading-none tracking-tighter text-transparent text-balance translate-y-[-1rem]"
-        style={{ fontFamily: "Inter, sans-serif" }}
-        duration={1.5}
-      />
-    </div>
+        <div className="mt-10 backdrop-filter-[8px] inline-flex h-6 items-center justify-between rounded-full border border-white/5 bg-white/10 px-2 text-xs text-white transition-all ease-in hover:bg-white/20 group gap-1 translate-y-[-0.5rem] opacity-100 cursor-pointer select-none">
+          <a
+            href="https://github.com/vaultblockmagic/vault"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <TextShimmer className="inline-flex items-center justify-center">
+              <span className="pointer-events-none">✨ Learn more →</span>
+            </TextShimmer>
+          </a>
+        </div>
+        <div className="relative">
+          <BlurIn
+            word={
+              <>
+                <span>Vault</span>:{" "}
+                <span>
+                  Uncompromising Asset Security <br /> & Account Abstraction
+                </span>
+              </>
+            }
+            className="bg-gradient-to-br from-white from-30% to-white/1 bg-clip-text py-2 mt-4 mb-4 sm:text-3xl md:text-4xl lg:text-5xl leading-none tracking-tighter text-transparent text-balance translate-y-[-0.6rem] pointer-events-none"
+            duration={2}
+          />
+        </div>
+      </div>
 
-      <div className="mt-6 mb-2 relative z-10 animate-fade-in opacity-0 [--animation-delay:500ms]">
+      <div className="mt-[0px] mb-[1.8rem] relative z-10 opacity-100">
         <ShimmerButtonDemo goToNext={goToNext} />
       </div>
-      <div className="relative mt-[2rem] animate-fade-up opacity-0 [--animation-delay:1000ms] [perspective:2000px]">
+      <div className="relative mt-[2.2rem] opacity-100 [perspective:2000px]">
         <div>
           <div className="relative z-10 mb-8 lg:mb-0">
             <BentoDemo />

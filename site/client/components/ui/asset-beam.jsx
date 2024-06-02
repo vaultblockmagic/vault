@@ -44,26 +44,26 @@ export function AssetBeam() {
             <Image src="/ethereum.svg" alt="Ethereum" layout="fill" objectFit="contain" objectPosition="center" />
           </Circle>
           <Circle ref={div5Ref}>
-            <Image src="/Vault_ethereum.svg" alt="Vault Ethereum" layout="fill" objectFit="contain" objectPosition="center" />
+            <Image src="/vault_ethereum.svg" alt="Vault Ethereum" layout="fill" objectFit="contain" objectPosition="center" />
           </Circle>
         </div>
         <div className="flex flex-row items-center justify-between">
           <Circle ref={div2Ref}>
-            <Image src="/Fantom_round.svg" alt="Fantom" layout="fill" objectFit="contain" objectPosition="center" />
+            <Image src="/fantom_round.svg" alt="Fantom" layout="fill" objectFit="contain" objectPosition="center" />
           </Circle>
           <Circle ref={div4Ref}>
             <Logo className="h-8 w-8" />
           </Circle>
           <Circle ref={div6Ref}>
-            <Image src="/VAULT_Fantom_round.svg" alt="Vault Fantom" layout="fill" objectFit="contain" objectPosition="center" />
+            <Image src="/vault_fantom_round.svg" alt="Vault Fantom" layout="fill" objectFit="contain" objectPosition="center" />
           </Circle>
         </div>
         <div className="flex flex-row items-center justify-between">
           <Circle ref={div3Ref}>
-            <Image src="/MFER_NFT.png" alt="MFER NFT" layout="fill" objectFit="contain" objectPosition="center" />
+            <Image src="/mfer_nft.svg" alt="MFER NFT" layout="fill" objectFit="contain" objectPosition="center" />
           </Circle>
           <Circle ref={div7Ref}>
-            <Image src="/VAULT_MFER_NFT.png" alt="Vault MFER NFT" layout="fill" objectFit="contain" objectPosition="center" />
+            <Image src="/vault_mfer_nft.svg" alt="Vault MFER NFT" layout="fill" objectFit="contain" objectPosition="center" />
           </Circle>
         </div>
       </div>

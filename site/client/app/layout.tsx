@@ -1,4 +1,4 @@
-import Script from "next/script"; 
+import Script from "next/script";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 import { cn } from "@/lib/utils";
@@ -37,7 +37,13 @@ export default function RootLayout({
         <StorageProvider>
           <ThemeProvider attribute="class" defaultTheme="dark">
             {children}
-            <Toaster />
+            <Toaster
+              richColors
+              theme="dark"
+              toastOptions={{
+                duration: 5000,
+              }}
+            />
           </ThemeProvider>
         </StorageProvider>
       </body>

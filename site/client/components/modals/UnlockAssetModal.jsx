@@ -9,7 +9,6 @@ import { useStorage } from "../storage";
 import { authOptionsDefault } from "../constants";
 import ScaleLoader from "react-spinners/ScaleLoader";
 
-
 const VaultSection = ({
   authOptions,
   setAuthOptions,
@@ -37,11 +36,11 @@ const VaultSection = ({
           </div>
         </div>
 
-        <div className="mt-4 w-full items-center justify-center text-center">
-          <div className="my-8"></div>
+        <div className="mt-0 w-full items-center justify-center text-center">
+        <div className="my-9"></div>
           <div className="w-full flex items-center justify-center">
             <Button
-              className="w-1/2 bg-primary"
+              className="relative py-2 h-2/3 w-auto text-black rounded-md font-medium px-12"
               type="submit"
               onClick={handleClose}
             >
@@ -58,6 +57,16 @@ const VaultSection = ({
               />
             </Button>
           </div>
+          {authOptions.find(
+            (a) => a.address === "0x661B556d4756C835D3A72779aCB32612E4243B56"
+          ) ? (
+            <div className="text-xs w-full text-center mt-8">
+              &#x26A0;{" "}
+              {`During heavy network load, Chainlink MFA may unexpectedly fail.`}
+            </div>
+          ) : (
+            <></>
+          )}
         </div>
       </div>
     </>
@@ -84,19 +93,18 @@ const AuthSelection = ({ authOption, authOptions, setAuthOptions }) => {
 
   return (
     <Popover
-      open={showInput}
-      onOpenChange={() => {
-        if (
-          authOption.address === "0x1111697F4dA79a8e7969183d8aBd838572E50FF3"
-        ) {
-          // RUN CHAINLINK VERIFICATION HERE
-          setCompleted(true);
-          setShowInput(false);
-        } else {
-          console.log("open changed!!!");
-          setShowInput(!showInput);
-        }
-      }}
+    open={showInput}
+    onOpenChange={() => {
+      if (
+        authOption.address === "0x661B556d4756C835D3A72779aCB32612E4243B56"
+      ) {
+        setCompleted(true);
+        setShowInput(false);
+      } else {
+        console.log("open changed!!!");
+        setShowInput(!showInput);
+      }
+    }}
     >
       <PopoverTrigger className="w-2/3">
         <div className="">
@@ -121,7 +129,7 @@ const AuthSelection = ({ authOption, authOptions, setAuthOptions }) => {
           </div>
         </div>
       </PopoverTrigger>
-      {authOption.address !== "0x1111697F4dA79a8e7969183d8aBd838572E50FF3" && (
+      {authOption.address !== "0x661B556d4756C835D3A72779aCB32612E4243B56" && (
         <PopoverContent className="w-80 bg-neutral-900 border-sky-700 border-2 text-white">
           <div>
             {!authOption.custom ? (
@@ -159,7 +167,7 @@ const AuthSelection = ({ authOption, authOptions, setAuthOptions }) => {
                 <div className="p-2">
                   <Button
                     type="button"
-                    className="w-full"
+                    className="w-auto"
                     onClick={() => {
                       confirmOTP(otpValue);
                       setShowInput(!showInput);
@@ -182,7 +190,7 @@ const AuthSelection = ({ authOption, authOptions, setAuthOptions }) => {
                 <div className="flex p-2 w-full items-center justify-center">
                   <Button
                     type="button"
-                    className="w-full"
+                    className="w-auto"
                     onClick={() => {
                       setShowInput(!showInput);
                       setCompleted(!completed);
@@ -201,7 +209,15 @@ const AuthSelection = ({ authOption, authOptions, setAuthOptions }) => {
   );
 };
 
-export function UnlockAssetModal({ open, onClose, selectedRow, fetchAssets }) {
+export function UnlockAssetModal({
+  open,
+  onClose,
+  selectedRow,
+  fetchAssets,
+  setShowError,
+  setErrorTitle,
+  setErrorMessage,
+}) {
   const { batchUnlockAndVerifyMFA } = useStorage();
 
   useEffect(() => {}, [selectedRow]);
@@ -212,7 +228,7 @@ export function UnlockAssetModal({ open, onClose, selectedRow, fetchAssets }) {
 
   const handleClose = () => {
     setShowSecureSection(false);
-    setButtonText("Unlock")
+    setButtonText("Unlock");
     onClose();
   };
 
@@ -239,7 +255,7 @@ export function UnlockAssetModal({ open, onClose, selectedRow, fetchAssets }) {
 
   const completeUnlock = async () => {
     try {
-      setButtonText("Awaiting transaction..")
+      setButtonText("Awaiting transaction..");
       console.log(authOptions);
       console.log(selectedRow);
 
@@ -287,8 +303,13 @@ export function UnlockAssetModal({ open, onClose, selectedRow, fetchAssets }) {
       // ) => Promise<void>;
 
       handleClose();
-    } catch {
-      setButtonText("Unlock")
+    } catch (e) {
+      setShowError(true);
+      setErrorTitle("Error with transaction");
+      setErrorMessage(
+        `There was an error with the transaction: ${e.toString()}`
+      );
+      setButtonText("Unlock");
     }
   };
 
@@ -322,8 +343,8 @@ export function UnlockAssetModal({ open, onClose, selectedRow, fetchAssets }) {
             leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
           >
             <div>
-              <div className="relative mx-auto mt-6 max-w-screen-2xl rounded-lg border-2 border-sky-700 bg-black px-4 pb-4 pt-5 text-left shadow-xl sm:my-20 sm:w-full sm:max-w-3xl sm:p-6">
-                <div className="absolute right-0 top-0 hidden pr-4 pt-4 sm:block">
+              <div className="relative mx-auto mt-6 max-w-screen-2xl rounded-lg border-2 border-sky-700 bg-black  px-8 pb-4 pt-8 text-left shadow-xl sm:my-20 sm:w-full sm:max-w-3xl sm:p-6">
+                <div className="absolute right-0 top-0 pr-4 pt-4 sm:block">
                   <button
                     type="button"
                     className="rounded-md bg-neutral-950 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-sky-500 focus:ring-offset-2 dark:hover:text-gray-400"
@@ -331,7 +352,7 @@ export function UnlockAssetModal({ open, onClose, selectedRow, fetchAssets }) {
                   >
                     <span className="sr-only">Close</span>
                     <XMarkIcon
-                      className="h-6 w-6 text-sky-500 hover:text-sky-600 dark:text-sky-600 dark:hover:text-sky-300 bg-neutral-900 rounded"
+                      className="h-6 w-6 text-sky-500 hover:text-sky-600 dark:text-sky-600 dark:hover:text-sky-500 bg-neutral-900 rounded"
                       aria-hidden="true"
                     />
                   </button>

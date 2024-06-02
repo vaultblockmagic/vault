@@ -7,9 +7,23 @@ import Particles from "@/components/magicui/particles";
 import { SphereMask } from "@/components/magicui/sphere-mask";
 import Signup from "@/components/dapp/signup";
 import DappMain from "@/components/dapp/dapp-main";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 export default function Page() {
   const [currentPage, setCurrentPage] = useState("heroSection");
+  const [showError, setShowError] = useState(false);
+  const [errorTitle, setErrorTitle] = useState("Error");
+  const [errorMessage, setErrorMessage] = useState("An error has occurred.");
 
   const handlePageTransition = (page) => {
     setCurrentPage(page);
@@ -25,6 +39,19 @@ export default function Page() {
         staticity={40}
         color={"#7DD3FC"}
       />
+      <AlertDialog open={showError} onOpenChange={setShowError}>
+        <AlertDialogContent className="border-sky-700 border-2 rounded-lg">
+          <AlertDialogHeader>
+            <AlertDialogTitle>{errorTitle}</AlertDialogTitle>
+            <AlertDialogDescription>{errorMessage}</AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter className="flex justify-center items-center">
+            <AlertDialogAction onClick={() => setShowError(false)} className="w-1/6 h-3/4">
+              OK
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
 
       {/* <div className="fixed top-0 left-0 z-50 pointer-events-none">
         <iframe
@@ -42,10 +69,20 @@ export default function Page() {
           <HeroSection goToNext={() => handlePageTransition("signupPage")} />
         )}
         {currentPage === "signupPage" && (
-          <Signup goToNext={() => handlePageTransition("dappMain")} />
+          <Signup
+            goToNext={() => handlePageTransition("dappMain")}
+            setShowError={setShowError}
+            setErrorTitle={setErrorTitle}
+            setErrorMessage={setErrorMessage}
+          />
         )}
         {currentPage === "dappMain" && (
-          <DappMain goToNext={() => handlePageTransition("heroSection")} />
+          <DappMain
+            goToNext={() => handlePageTransition("heroSection")}
+            setShowError={setShowError}
+            setErrorTitle={setErrorTitle}
+            setErrorMessage={setErrorMessage}
+          />
         )}
       </div>
     </>

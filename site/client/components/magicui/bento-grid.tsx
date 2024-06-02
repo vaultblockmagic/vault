@@ -23,6 +23,16 @@ const BentoGrid = ({
   );
 };
 
+type BentoCardProps = {
+  name: string;
+  className: string;
+  background: ReactNode;
+  Icon: any;
+  description: string;
+  href: string;
+  onMouseEnter?: () => void;
+};
+
 const BentoCard = ({
   name,
   className,
@@ -30,19 +40,13 @@ const BentoCard = ({
   Icon,
   description,
   href,
-}: {
-  name: string;
-  className: string;
-  background: ReactNode;
-  Icon: any;
-  description: string;
-  href: string;
-}) => {
+  onMouseEnter,
+}: BentoCardProps) => {
   const { setStorage } = useStorage();
 
   const handleMouseEnter = () => {
     setStorage("ActiveBento", name);
-    console.log(name)
+    console.log(name);
   };
 
   return (
@@ -57,7 +61,7 @@ const BentoCard = ({
         "before:absolute before:inset-0 before:border-2 before:border-transparent before:transition-all before:duration-300 hover:before:border-sky-600 before:rounded-xl before:z-10",
         className
       )}
-      onMouseEnter={handleMouseEnter}
+      onMouseEnter={onMouseEnter || handleMouseEnter}
     >
       <div>{background}</div>
       <div className="pointer-events-none z-10 flex transform-gpu flex-col gap-1 p-6 transition-all duration-300 group-hover:-translate-y-3">

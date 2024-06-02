@@ -1,7 +1,7 @@
 import type { Config } from "tailwindcss";
 import { fontFamily } from "tailwindcss/defaultTheme";
 
-const colors = require('tailwindcss/colors')
+const colors = require("tailwindcss/colors");
 
 const config = {
   darkMode: ["class"],
@@ -21,8 +21,7 @@ const config = {
       },
     },
     extend: {
-      screens: { 'sm': { 'max': '640px' } 
-      },
+      screens: { sm: { max: "767px" } },
       fontFamily: {
         sans: ["var(--font-sans)", ...fontFamily.sans],
       },
@@ -137,13 +136,23 @@ const config = {
             transform: "translate(calc(100cqw - 100%), 0)",
           },
         },
+        orbit: {
+          "0%": {
+            transform:
+              "rotate(0deg) translateY(calc(var(--radius) * 1px)) rotate(0deg)",
+          },
+          "100%": {
+            transform:
+              "rotate(360deg) translateY(calc(var(--radius) * 1px)) rotate(-360deg)",
+          },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         "border-beam": "border-beam calc(var(--duration)*1s) infinite linear",
         "image-glow": "image-glow 100000000ms ease-out forwards",
-        "image-glow-sm": "image-glow 4100ms ease-out forwards",
+        "image-glow-sm": "image-glow 100000000ms ease-out forwards",
         "fade-in": "fade-in 1000ms var(--animation-delay, 0ms) ease forwards",
         "fade-up": "fade-up 1000ms var(--animation-delay, 0ms) ease forwards",
         shimmer: "shimmer 8s infinite",
@@ -151,6 +160,7 @@ const config = {
         "marquee-vertical": "marquee-vertical var(--duration) linear infinite",
         "spin-around": "spin-around calc(var(--speed) * 2) infinite linear",
         slide: "slide var(--speed) ease-in-out infinite alternate",
+        orbit: "orbit calc(var(--duration)*1s) linear infinite",
       },
     },
   },

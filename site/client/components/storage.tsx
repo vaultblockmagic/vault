@@ -13,6 +13,7 @@ import MFAManagerABI from "../public/ABIs/MFAManager.json";
 import ExternalAPIMFAABI from "../public/ABIs/ExternalAPIMFA.json";
 import { CovalentClient } from "@covalenthq/client-sdk";
 import { poseidon } from "@/components/poseidon-hash";
+import { toast } from "sonner";
 
 export interface MFAProviderData {
   providerAddress: string;
@@ -171,12 +172,12 @@ export const StorageProvider: React.FC<{ children: React.ReactNode }> = ({
         const chainId = await (window as any).ethereum.request({
           method: "eth_chainId",
         });
-        if (chainId !== "0x66eee" && chainId !== "0xa869") {
+        if (chainId !== "0xa869" && chainId !== "0x66eee") {
           try {
             // Attempt to switch to the desired network
             await (window as any).ethereum.request({
               method: "wallet_switchEthereumChain",
-              params: [{ chainId: "0x66eee" }],
+              params: [{ chainId: "0xa869" }],
             });
           } catch (switchError) {
             // If the network doesn't exist, add it
@@ -186,17 +187,15 @@ export const StorageProvider: React.FC<{ children: React.ReactNode }> = ({
                   method: "wallet_addEthereumChain",
                   params: [
                     {
-                      chainId: "0x66eee",
-                      chainName: "Arbitrum Sepolia",
-                      rpcUrls: [
-                        "https://arbitrum-sepolia.blockpi.network/v1/rpc/public",
-                      ],
+                      chainId: "0xa869",
+                      chainName: "Avalanche Fuji",
+                      rpcUrls: ["https://api.avax-test.network/ext/bc/C/rpc"],
                       nativeCurrency: {
-                        name: "ETH",
-                        symbol: "ETH",
+                        name: "AVAX",
+                        symbol: "AVAX",
                         decimals: 18,
                       },
-                      blockExplorerUrls: ["https://sepolia.arbiscan.io/"],
+                      blockExplorerUrls: ["https://testnet.snowtrace.io/"],
                     },
                   ],
                 });
@@ -290,6 +289,15 @@ export const StorageProvider: React.FC<{ children: React.ReactNode }> = ({
             return false;
           }
         }
+        let newChain =
+          targetChainId === "0xa869" ? "Avalanche Fuji" : "Arbitrum Sepolia";
+        toast.info("Swapped chain successfully to " + newChain);
+        if (newChain === "Arbitrum Sepolia")
+          setTimeout(function () {
+            toast.warning(
+              "Please confirm transactions on Arbitrum Sepolia quickly, otherwise they may fail during heavy network/RPC load."
+            );
+          }, 5000);
         return true;
       } catch (error) {
         console.error("Failed to swap chain:", error);
@@ -1661,8 +1669,21 @@ export const StorageProvider: React.FC<{ children: React.ReactNode }> = ({
       });
       if (response.ok) {
         const data = await response.json();
+        toast.success(
+          "Recovery successfully completed for " +
+            username +
+            ". You have been airdroped an additional 10000 VAULT tokens."
+        );
+        setTimeout(function () {
+          toast.info(
+            "All mirrored assets have been recovered. Please allow 2 minutes for recovery to complete on arbitrum."
+          );
+        }, 5000);
         return data;
       } else {
+        toast.error(
+          "Error during recovery, please initiate recovery again from an unregistered wallet address."
+        );
         throw new Error("Failed to recover ENS");
       }
     } catch (error) {

@@ -13,8 +13,12 @@ import { useStorage } from "../storage";
 import { authOptionsDefault } from "../constants";
 import ScaleLoader from "react-spinners/ScaleLoader";
 
-
-const VaultSection = ({ authOptions, setAuthOptions, handleClose, buttonText }) => {
+const VaultSection = ({
+  authOptions,
+  setAuthOptions,
+  handleClose,
+  buttonText,
+}) => {
   return (
     <>
       <div className="mt-2 items-center justify-center max-h-[60vh] min-w-[16rem] md:min-w-[50vh] lg:min-w-[50vh] overflow-y-auto px-1 pb-1 text-white">
@@ -23,7 +27,7 @@ const VaultSection = ({ authOptions, setAuthOptions, handleClose, buttonText }) 
           unvault.
         </div>
 
-        <div className="w-full mt-6 flex items-center justify-center px-4">
+        <div className="w-auto mt-6 flex items-center justify-center px-4">
           <div className="w-full h-[40vh] flex flex-col items-center justify-center rounded-lg p-2">
             {authOptions.map((authOption) => (
               <AuthSelection
@@ -37,17 +41,17 @@ const VaultSection = ({ authOptions, setAuthOptions, handleClose, buttonText }) 
         </div>
 
         <div className="mt-4 w-full items-center justify-center text-center">
-          <div className="my-8"></div>
+          <div className="my-9"></div>
           <div className="w-full flex items-center justify-center">
             <Button
-              className="w-1/2 bg-primary"
+              className="relative py-2 h-2/3 w-auto text-black rounded-md font-medium px-12"
               type="submit"
               onClick={handleClose}
             >
-              <div className={(buttonText != "Unvault") ? "mr-2" : ""}>
-              {buttonText}
+              <div className={buttonText != "Unvault" ? "mr-2" : ""}>
+                {buttonText}
               </div>
-              <ScaleLoader 
+              <ScaleLoader
                 loading={buttonText != "Unvault"}
                 color="#0ea5e9"
                 height={20}
@@ -57,6 +61,16 @@ const VaultSection = ({ authOptions, setAuthOptions, handleClose, buttonText }) 
               />
             </Button>
           </div>
+          {authOptions.find(
+            (a) => a.address === "0x661B556d4756C835D3A72779aCB32612E4243B56"
+          ) ? (
+            <div className="text-xs w-full text-center mt-8">
+              &#x26A0;{" "}
+              {`During heavy network load, Chainlink MFA may unexpectedly fail.`}
+            </div>
+          ) : (
+            <></>
+          )}
         </div>
       </div>
     </>
@@ -157,7 +171,7 @@ const AuthSelection = ({ authOption, authOptions, setAuthOptions }) => {
                 <div className="p-2">
                   <Button
                     type="button"
-                    className="w-full"
+                    className="w-auto"
                     onClick={() => {
                       confirmOTP(otpValue);
                       setShowInput(!showInput);
@@ -180,7 +194,7 @@ const AuthSelection = ({ authOption, authOptions, setAuthOptions }) => {
                 <div className="flex p-2 w-full items-center justify-center">
                   <Button
                     type="button"
-                    className="w-full"
+                    className="w-auto"
                     onClick={() => {
                       setShowInput(!showInput);
                       setCompleted(!completed);
@@ -199,7 +213,15 @@ const AuthSelection = ({ authOption, authOptions, setAuthOptions }) => {
   );
 };
 
-export function UnvaultAssetModal({ open, onClose, selectedRow, fetchAssets }) {
+export function UnvaultAssetModal({
+  open,
+  onClose,
+  selectedRow,
+  fetchAssets,
+  setShowError,
+  setErrorTitle,
+  setErrorMessage,
+}) {
   const { batchUnvaultAndVerifyMFA } = useStorage();
 
   useEffect(() => {}, [selectedRow]);
@@ -210,7 +232,7 @@ export function UnvaultAssetModal({ open, onClose, selectedRow, fetchAssets }) {
 
   const handleClose = () => {
     setShowSecureSection(false);
-    setButtonText("Unvault")
+    setButtonText("Unvault");
     onClose();
   };
 
@@ -227,7 +249,7 @@ export function UnvaultAssetModal({ open, onClose, selectedRow, fetchAssets }) {
   };
 
   const [showSecureSection, setShowSecureSection] = useState(true);
-  const [buttonText, setButtonText] = useState("Unvault")
+  const [buttonText, setButtonText] = useState("Unvault");
 
   const handleNext = () => {
     if (showSecureSection) {
@@ -237,7 +259,7 @@ export function UnvaultAssetModal({ open, onClose, selectedRow, fetchAssets }) {
 
   const completeUnvault = async () => {
     try {
-      setButtonText("Awaiting transaction..")
+      setButtonText("Awaiting transaction..");
       console.log(authOptions);
       console.log(selectedRow);
 
@@ -289,8 +311,13 @@ export function UnvaultAssetModal({ open, onClose, selectedRow, fetchAssets }) {
       // ) => Promise<void>;
 
       handleClose();
-    } catch {
-      setButtonText("Unvault")
+    } catch (e) {
+      setShowError(true);
+      setErrorTitle("Error with transaction");
+      setErrorMessage(
+        `There was an error with the transaction: ${e.toString()}`
+      );
+      setButtonText("Unvault");
     }
   };
 
@@ -324,16 +351,16 @@ export function UnvaultAssetModal({ open, onClose, selectedRow, fetchAssets }) {
             leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
           >
             <div>
-              <div className="relative mx-auto mt-6 max-w-screen-2xl rounded-lg border-2 border-sky-700 bg-black px-4 pb-4 pt-5 text-left shadow-xl sm:my-20 sm:w-full sm:max-w-3xl sm:p-6">
-                <div className="absolute right-0 top-0 hidden pr-4 pt-4 sm:block">
+              <div className="relative w-auto mt-6 max-w-screen-2xl rounded-lg border-2 border-sky-700 bg-black px-8 pb-4 pt-8 text-left shadow-xl sm:my-20 sm:w-full sm:max-w-3xl sm:p-6">
+                <div className="absolute right-0 top-0 pr-4 pt-4 sm:block">
                   <button
                     type="button"
-                    className="rounded-md bg-neutral-950 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-sky-500 focus:ring-offset-2 dark:hover:text-gray-400"
+                    className="rounded-md bg-neutral-950 text-gray-400 hover:text-gray-400"
                     onClick={handleClose}
                   >
                     <span className="sr-only">Close</span>
                     <XMarkIcon
-                      className="h-6 w-6 text-sky-500 hover:text-sky-600 dark:text-sky-600 dark:hover:text-sky-300 bg-neutral-900 rounded"
+                      className="h-6 w-6 text-sky-500 hover:text-sky-600 dark:text-sky-600 dark:hover:text-sky-500 bg-neutral-900 rounded"
                       aria-hidden="true"
                     />
                   </button>

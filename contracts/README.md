@@ -130,17 +130,11 @@
 -  ExternalSignerMFA:         0x329e4D3Cb8Fe41cfbB6D58DE9CDcef59E0eb8201
 -  VRF:                       0xE03ad403EA33131CcB41E28f59B7AEA380561934
 -  VRFV2SubscriptionManager:  0x801B1EEA2B48c0c7c88eCB8faD676523EDC3Cc78
--  ExternalAPIMFA:            0x661B556d4756C835D3A72779aCB32612E4243B56
--  CCNS:                      0x8C3e8e3AC6d64382f8AEE1148bFb8fF7Ab374654
+-  ExternalAPIMFA:            0x661B556d4756C835D3A72779aCB32612E4243B56 (Chainlink Automation, VRF, Functions)
+-  CCNS:                      0x8C3e8e3AC6d64382f8AEE1148bFb8fF7Ab374654 (Chainlink CCIP)
 -  TokenDataRetriever:        0xF528968d8dF0C638e0aF5a3f3a62a33BE9D18F95
 
 ---
-## Chainlink Links - Arbitrum Sepolia:
-
-- https://ccip.chain.link/address/0x8c3e8e3ac6d64382f8aee1148bfb8ff7ab374654 (CCIP CCNS)
-- https://vrf.chain.link/arbitrum-sepolia/393 (consumer 0xE03ad403EA33131CcB41E28f59B7AEA380561934 used in ExternalAPIMFA)
-- https://automation.chain.link/arbitrum-sepolia/42159563703683229980886531494566954465680530119000057758684849594520480333437
-- https://functions.chain.link/arbitrum-sepolia/83
 
 ## Chainlink Links - Avalanche Fuji:
 
@@ -149,7 +143,14 @@
 - https://automation.chain.link/fuji/90525461017520113338357357821487944620473985164473663587279624792819107389409
 - https://functions.chain.link/fuji/8928
 
-The automation for Fuji link doesn't seem to reflect the true spending/transactions - 
+## Chainlink Links - Arbitrum Sepolia:
+
+- https://ccip.chain.link/address/0x8c3e8e3ac6d64382f8aee1148bfb8ff7ab374654 (CCIP ENS)
+- https://vrf.chain.link/arbitrum-sepolia/393 (consumer 0xE03ad403EA33131CcB41E28f59B7AEA380561934 used in ExternalAPIMFA)
+- https://automation.chain.link/arbitrum-sepolia/42159563703683229980886531494566954465680530119000057758684849594520480333437
+- https://functions.chain.link/arbitrum-sepolia/83
+
+### note: The automation for Fuji link doesn't seem to reflect the true spending/transactions - 
 
 https://testnet.snowtrace.io/address/0x661B556d4756C835D3A72779aCB32612E4243B56 - Address of ExternalAPIMFA
 https://testnet.snowtrace.io/tx/0xf394d6d240cdcb4f248411ebae69c93bc57d980dae057b95ce0a033b6efe2411/eventlog?chainId=43113 - Internal Tx with Upkeep performed

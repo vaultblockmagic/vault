@@ -34,13 +34,21 @@ import {
   TableRow,
 } from "@/components/ui/table-demo";
 import { Button } from "../ui/button";
-import { Vault, Wallet, Lock, LockOpen, Link } from "@phosphor-icons/react";
+import {
+  Vault,
+  Wallet,
+  Lock,
+  LockOpen,
+  Link,
+  ArrowClockwise,
+} from "@phosphor-icons/react";
 import { LockAssetModal } from "@/components/modals/LockAssetModal";
 import { UnlockAssetModal } from "@/components/modals/UnlockAssetModal";
 import { StorageProvider, useStorage } from "@/components/storage";
 import { useEffect } from "react";
 import FadeLoader from "react-spinners/FadeLoader";
 import { chains } from "../constants";
+import { toast } from "sonner";
 
 const Rows = ({ vaulted, assets, handleRowClick }) => {
   const result = assets
@@ -58,12 +66,12 @@ const Rows = ({ vaulted, assets, handleRowClick }) => {
           <TableCell className="justify-center items-center">
             <div className="flex py-1 justify-center items-center">
               <Button
-                className="w-[55px] h-max bg-[#2a2a2a] hover:bg-sky-800 bg-opacity-50 hover:bg-opacity-75 border-[#404040] hover:border-sky-700 border"
+                className="w-[55px] h-[35px] hover:bg-sky-600 bg-opacity-50 hover:bg-opacity-75 border-sky-400 hover:border-sky-200 border bg-opacity-50 bg-sky-900 p-2"
                 onClick={() =>
                   handleRowClick(index, vaulted, false, asset.locked)
                 }
               >
-                <Vault className="w-5 h-5 fill-sky-200 p-0" />
+                <Vault className="fill-sky-200 w-6 h-6 p-0 m-0" />
               </Button>
             </div>
           </TableCell>
@@ -71,7 +79,7 @@ const Rows = ({ vaulted, assets, handleRowClick }) => {
             <TableCell className="justify-center items-center">
               <div className="flex py-1 justify-center items-center">
                 <Button
-                  className="flex w-[55px] h-max bg-[#2a2a2a] hover:bg-sky-800 bg-opacity-50 hover:bg-opacity-75 border-[#404040] hover:border-sky-700 border items-center justify-center"
+                  className="w-[55px] h-[35px] hover:bg-sky-600 bg-opacity-50 hover:bg-opacity-75 border-sky-400 hover:border-sky-200 border bg-opacity-50 bg-sky-900 p-2"
                   onClick={() =>
                     handleRowClick(index, vaulted, true, asset.locked)
                   }
@@ -85,13 +93,21 @@ const Rows = ({ vaulted, assets, handleRowClick }) => {
               </div>
             </TableCell>
           )}
+          <TableCell className="text-left pl-8"></TableCell>
         </TableRow>
       );
     });
   return result;
 };
 
-const AssetsTable = ({ vaulted, loaded, assets, handleRowClick }) => {
+const AssetsTable = ({
+  vaulted,
+  loaded,
+  assets,
+  handleRowClick,
+  fetchAssets,
+  refreshWarning,
+}) => {
   const result = (
     <TabsContent className="w-full" value={vaulted ? "vaulted" : "unvaulted"}>
       <div className="flex flex-row w-full justify-center"></div>
@@ -111,6 +127,17 @@ const AssetsTable = ({ vaulted, loaded, assets, handleRowClick }) => {
                 Lock/Unlock
               </TableHead>
             )}
+            <TableHead className="w-2 items-center justify-center h-full font-bold text-white m-0 p-auto">
+              <div
+                className="flex items-center justify-center hover:bg-sky-600 bg-opacity-50 hover:bg-opacity-75 border-sky-400 hover:border-sky-200 border-[0.5px] cursor-pointer bg-opacity-50 bg-sky-900 p-1 rounded-lg"
+                onClick={() => {
+                  refreshWarning();
+                  fetchAssets();
+                }}
+              >
+                <ArrowClockwise className="w-5 h-5 text-sky-200" />
+              </div>
+            </TableHead>
           </TableHeader>
           <TableBody className="text-l">
             <Rows
@@ -122,14 +149,17 @@ const AssetsTable = ({ vaulted, loaded, assets, handleRowClick }) => {
         </TableDemo>
         {!loaded && (
           <div className="flex w-full bg-black p-2 pt-4 rounded-lg items-center justify-center">
-            <FadeLoader
-              color={"#06b6d4"}
-              loading={!loaded}
-              height={10}
-              margin={-4}
-              radius={8}
-              width={3}
-            />
+            <div className="transform scale-75">
+              <FadeLoader
+                color={"#06b6d4"}
+                className="ml-4"
+                loading={!loaded}
+                height={10}
+                margin={-4}
+                radius={8}
+                width={3}
+              />
+            </div>
           </div>
         )}
       </div>
@@ -138,7 +168,12 @@ const AssetsTable = ({ vaulted, loaded, assets, handleRowClick }) => {
   return result;
 };
 
-export default function DappMain({ goToNext }) {
+export default function DappMain({
+  goToNext,
+  setShowError,
+  setErrorTitle,
+  setErrorMessage,
+}) {
   const [showVaultAssetModal, setShowVaultAssetModal] = useState(false);
   const [showUnvaultAssetModal, setShowUnvaultAssetModal] = useState(false);
   const [showLockAssetModal, setShowLockAssetModal] = useState(false);
@@ -168,12 +203,14 @@ export default function DappMain({ goToNext }) {
       if (isLocked) {
         setShowUnlockAssetModal(true);
       } else {
+        toast.info("Each applied MFA factor will deduct 1 VAULT token.");
         setShowLockAssetModal(true);
       }
     } else {
       if (vaulted) {
         setShowUnvaultAssetModal(true);
       } else {
+        toast.info("Each applied MFA factor will deduct 1 VAULT token.");
         setShowVaultAssetModal(true);
       }
     }
@@ -197,21 +234,34 @@ export default function DappMain({ goToNext }) {
     useStorage();
 
   const fetchAssets = async () => {
-    setAssetsLoaded(false);
-    let accs = await web3.eth.getAccounts();
-    let userAddress = accs[0];
-    setAddress(userAddress);
+    try {
+      setAssetsLoaded(false);
+      let accs = await web3.eth.getAccounts();
+      let userAddress = accs[0];
+      setAddress(userAddress);
 
-    const chain = (await web3.eth.getChainId()).toString();
-    console.log("fetched chainid in dapp-main:");
-    console.log(chain);
-    setChainId(chain);
+      const chain = (await web3.eth.getChainId()).toString();
+      console.log("fetched chainid in dapp-main:");
+      console.log(chain);
+      setChainId(chain);
 
-    if (!userAddress) {
-      return;
+      if (!userAddress) {
+        return;
+      }
+      const updatedAssets = await fetchTokenBalances(userAddress);
+      setAssets(updatedAssets);
+    } catch (e) {
+      setShowError(true);
+      setErrorTitle("Error with loading assets");
+      setErrorMessage(`There was an loading your assets: ${e.toString()}`);
+      setButtonText("Vault");
     }
-    const updatedAssets = await fetchTokenBalances(userAddress);
-    setAssets(updatedAssets);
+  };
+
+  const refreshWarning = async () => {
+    toast.warning(
+      "Fetching asset balances may be delayed or out of date due to network/RPC load."
+    );
   };
 
   useEffect(() => {
@@ -244,24 +294,38 @@ export default function DappMain({ goToNext }) {
             onClose={closeVaultAssetModal}
             selectedRow={selectedRow}
             fetchAssets={fetchAssets}
+            setShowError={setShowError}
+            setErrorTitle={setErrorTitle}
+            setErrorMessage={setErrorMessage}
+            nativeToken={currentChain?.symbol}
           />
           <UnvaultAssetModal
             open={showUnvaultAssetModal}
             onClose={closeUnvaultAssetModal}
             selectedRow={selectedRow}
             fetchAssets={fetchAssets}
+            setShowError={setShowError}
+            setErrorTitle={setErrorTitle}
+            setErrorMessage={setErrorMessage}
           />
           <LockAssetModal
             open={showLockAssetModal}
             onClose={closeLockAssetModal}
             selectedRow={selectedRow}
             fetchAssets={fetchAssets}
+            setShowError={setShowError}
+            setErrorTitle={setErrorTitle}
+            setErrorMessage={setErrorMessage}
+            nativeToken={currentChain?.symbol}
           />
           <UnlockAssetModal
             open={showUnlockAssetModal}
             onClose={closeUnlockAssetModal}
             selectedRow={selectedRow}
             fetchAssets={fetchAssets}
+            setShowError={setShowError}
+            setErrorTitle={setErrorTitle}
+            setErrorMessage={setErrorMessage}
           />
           <div className="h-full">
             {/* <div className="flex items-center h-full" href="/signup">
@@ -283,30 +347,37 @@ export default function DappMain({ goToNext }) {
                     </span>
                   </div>
                 </AlertDialogTrigger>
-                <AlertDialogContent>
-                  <AlertDialogHeader>
-                    <AlertDialogTitle>Do you want to logout?</AlertDialogTitle>
-                    <AlertDialogDescription>
+                <AlertDialogContent className="border-sky-700 border-2 rounded-lg">
+                  <AlertDialogHeader className="flex">
+                    <AlertDialogTitle className="flex">
+                      Do you want to logout?
+                    </AlertDialogTitle>
+                    <AlertDialogDescription className="flex">
                       You will be returned to the Vault landing page.
                     </AlertDialogDescription>
                   </AlertDialogHeader>
-                  <AlertDialogFooter>
-                    <AlertDialogCancel>Cancel</AlertDialogCancel>
-                    <AlertDialogAction
-                      onClick={() => {
-                        console.log("logging out...");
-                        setStorage("username", "");
-                        setStorage("password", "");
-                        setStorage("qr_uri_one", "");
-                        setStorage("qr_uri_two", "");
-                        goToNext();
-                        setCurrentChain("");
-                        setChainId("");
-                        setAddress("");
-                      }}
-                    >
-                      Logout
-                    </AlertDialogAction>
+                  <AlertDialogFooter className="flex justify-end mt-8">
+                    <div className="flex justify-end space-x-4">
+                      <AlertDialogCancel className="w-20">
+                        Cancel
+                      </AlertDialogCancel>
+                      <AlertDialogAction
+                        className="w-20 lg:mt-[0.5rem] md:mt-[0.5rem]"
+                        onClick={() => {
+                          console.log("logging out...");
+                          setStorage("username", "");
+                          setStorage("password", "");
+                          setStorage("qr_uri_one", "");
+                          setStorage("qr_uri_two", "");
+                          goToNext();
+                          setCurrentChain("");
+                          setChainId("");
+                          setAddress("");
+                        }}
+                      >
+                        Logout
+                      </AlertDialogAction>
+                    </div>
                   </AlertDialogFooter>
                 </AlertDialogContent>
               </AlertDialog>
@@ -333,28 +404,31 @@ export default function DappMain({ goToNext }) {
                     </span>
                   </div>
                 </AlertDialogTrigger>
-                <AlertDialogContent>
-                  <AlertDialogHeader>
-                    <AlertDialogTitle>
+                <AlertDialogContent className="border-sky-700 border-2 rounded-lg">
+                  <AlertDialogHeader className="flex">
+                    <AlertDialogTitle className="flex">
                       Do you want to swap chain to {currentChain?.switchName}?
                     </AlertDialogTitle>
-                    <AlertDialogDescription>
+                    <AlertDialogDescription className="flex">
                       Your assets will reload accordingly.
                     </AlertDialogDescription>
                   </AlertDialogHeader>
-                  <AlertDialogFooter>
-                    <AlertDialogCancel>Cancel</AlertDialogCancel>
-                    <AlertDialogAction
-                      onClick={async () => {
-                        console.log("Switching chains...");
-                        await switchChain();
-                        setAssets([]);
-                        setAssetsLoaded(false);
-                        fetchAssets();
-                      }}
-                    >
-                      Swap
-                    </AlertDialogAction>
+                  <AlertDialogFooter className="flex justify-end mt-8">
+                    <div className="flex justify-end space-x-4">
+                      <AlertDialogCancel className="w-20">Cancel</AlertDialogCancel>
+                      <AlertDialogAction
+                      className="w-20 lg:mt-[0.5rem] md:mt-[0.5rem]"
+                        onClick={async () => {
+                          console.log("Switching chains...");
+                          await switchChain();
+                          setAssets([]);
+                          setAssetsLoaded(false);
+                          fetchAssets();
+                        }}
+                      >
+                        Swap
+                      </AlertDialogAction>
+                    </div>
                   </AlertDialogFooter>
                 </AlertDialogContent>
               </AlertDialog>
@@ -407,23 +481,27 @@ export default function DappMain({ goToNext }) {
               loaded={assetsLoaded}
               assets={assets}
               handleRowClick={handleRowClick}
+              fetchAssets={fetchAssets}
+              refreshWarning={refreshWarning}
             />
             <AssetsTable
               vaulted={true}
               loaded={assetsLoaded}
               assets={assets}
               handleRowClick={handleRowClick}
+              fetchAssets={fetchAssets}
+              refreshWarning={refreshWarning}
             />
           </div>
         </Tabs>
-        <div className="h-full w-3/4 py-4">
+        {/* <div className="h-full w-3/4 py-4">
           <Button
             className="bg-black hover:bg-neutral-900 text-white border-neutral-500 border"
             onClick={fetchAssets}
           >
             Refresh
           </Button>
-        </div>
+        </div> */}
       </div>
     </section>
   );

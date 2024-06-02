@@ -12,12 +12,12 @@ import { AuthSelection } from "../ui/auth-options-select";
 import { useStorage } from "../storage";
 import ScaleLoader from "react-spinners/ScaleLoader";
 
-
 const AllocateSection = ({
   handleNext,
   numTokens,
   setNumTokens,
   selectedRow,
+  nativeToken
 }: any) => {
   const handleTokensChange = (e: any) => {
     setNumTokens(e.target.value);
@@ -40,14 +40,12 @@ const AllocateSection = ({
             </div>
           </div>
         </div>
-
-        {/* <div className="bg-gradient-to-r from-transparent via-sky-200 via-sky-500 to-transparent my-8 h-[1px] w-full" /> */}
         <div className="my-9"></div>
 
         <div className="w-full flex items-center justify-center">
           <Button
             // className="bg-gradient-to-b relative group/btn from-sky-900  to-slate-900 block  w-2/3 text-white rounded-md h-10 font-medium"
-            className="w-1/2 bg-primary"
+            className="relative py-2 h-2/3 w-1/3 text-black rounded-md font-medium"
             type="submit"
             onClick={handleNext}
           >
@@ -55,6 +53,7 @@ const AllocateSection = ({
             <BottomGradient />
           </Button>
         </div>
+        <div className="text-xs w-full text-center mt-8">&#x26A0; {`You will need a sufficient ${nativeToken} balance to complete the vault.`}</div>
       </div>
     </>
   );
@@ -76,10 +75,10 @@ const TimeSection = ({
   return (
     <>
       <div className="mt-2 items-center justify-center max-h-[70vh] min-w-[16rem] md:min-w-[40vh] lg:min-w-[40vh] overflow-y-auto pb-1 text-sm font-base text-white">
-        <div>Enter the number of tokens you want to allocate to this lock.</div>
+        <div>Enter the date and time you want this token to be unlocked.</div>
 
         <div className="w-full mt-6 flex items-center justify-center">
-          <div className="w-[16rem] h-[45vh] flex flex-col items-center justify-center rounded-lg p-2">
+          <div className="w-auto h-auto flex flex-col items-center justify-center rounded-lg p-2 px-24">
             <div className="w-full text-center rounded-lg">
               <Calendar
                 mode="single"
@@ -132,12 +131,10 @@ const TimeSection = ({
           </div>
         </div>
 
-        <div className="bg-gradient-to-r from-transparent via-sky-200 via-sky-500 to-transparent my-8 h-[1px] w-full" />
-
         <div className="w-full flex items-center justify-center">
           <Button
             // className="bg-gradient-to-b relative group/btn from-sky-900  to-slate-900 block  w-2/3 text-white rounded-md h-10 font-medium"
-            className="w-1/2"
+            className="relative py-2 h-2/3 w-auto text-black rounded-md font-medium px-12"
             type="submit"
             onClick={handleNext}
           >
@@ -185,12 +182,10 @@ const VaultSection = ({
           </div>
         </div>
 
-        <div className="bg-gradient-to-r from-transparent via-sky-200 via-sky-500 to-transparent my-8 h-[1px] w-full" />
-
         <div className="w-full flex items-center justify-center">
           <Button
             // className="bg-gradient-to-b relative group/btn from-sky-900  to-slate-900 block  w-2/3 text-white rounded-md h-10 font-medium"
-            className="w-1/2 bg-primary"
+            className="relative py-2 h-2/3 w-auto text-black rounded-md font-medium px-12"
             type="submit"
             onClick={handleNext}
           >
@@ -198,6 +193,7 @@ const VaultSection = ({
             <BottomGradient />
           </Button>
         </div>
+        <div className="text-xs w-full text-center mt-8">&#x26A0; {`Each additional MFA method will cost 1 VAULT token.`}</div>
       </div>
     </>
   );
@@ -272,15 +268,15 @@ const SummarySection = ({
           </div>
         </div>
 
-        <div className="bg-gradient-to-r from-transparent via-sky-200 via-sky-500 to-transparent my-8 h-[1px] w-full" />
-
         <div className="w-full flex items-center justify-center">
           <Button
-            // className="bg-gradient-to-b relative group/btn from-sky-900  to-slate-900 block  w-2/3 text-white rounded-md h-10 font-medium"
+            className="relative py-2 h-2/3 w-auto text-black rounded-md font-medium px-12"
             type="submit"
             onClick={completeLock}
           >
-            <div className={(buttonText != "Lock") ? "mr-2" : ""}>{buttonText}</div>
+            <div className={buttonText != "Lock" ? "mr-2" : ""}>
+              {buttonText}
+            </div>
             <ScaleLoader
               loading={buttonText != "Lock"}
               color="#0ea5e9"
@@ -348,12 +344,9 @@ const LockModeSection = ({ handleNext, isTimeLock, setIsTimeLock }: any) => {
           </div>
         </div>
 
-        <div className="bg-gradient-to-r from-transparent via-sky-200 via-sky-500 to-transparent my-8 h-[1px] w-full" />
-
         <div className="w-full flex items-center justify-center">
           <Button
-            // className="bg-gradient-to-b relative group/btn from-sky-900  to-slate-900 block  w-2/3 text-white rounded-md h-10 font-medium"
-            className="w-1/2"
+            className="relative py-2 h-2/3 w-1/3 text-black rounded-md font-medium"
             type="submit"
             onClick={handleNext}
           >
@@ -371,6 +364,10 @@ export function LockAssetModal({
   onClose,
   selectedRow,
   fetchAssets,
+  setShowError,
+  setErrorTitle,
+  setErrorMessage,
+  nativeToken
 }: any) {
   useEffect(() => {
     console.log("Selected row in LockAssetModal:", selectedRow);
@@ -387,7 +384,7 @@ export function LockAssetModal({
     setLockTime(null);
     setFullDateTime("");
     setIsTimeLock(true);
-    setButtonText("Lock")
+    setButtonText("Lock");
     /*
   const [lockDate, setLockDate] = useState<Date | undefined>(new Date());
   const [lockTime, setLockTime] = useState<Dayjs | null>(null);
@@ -418,7 +415,10 @@ export function LockAssetModal({
                 )
                 .toString();
         console.log(combinedDateTime);
-        timelockTokens(selectedRow.tokenAddress, combinedDateTime as string);
+        await timelockTokens(
+          selectedRow.tokenAddress,
+          combinedDateTime as string
+        );
         handleClose();
       } else {
         const customZKPasswordOption = authOptions.find(
@@ -447,8 +447,13 @@ export function LockAssetModal({
         // ) => Promise<void>;
         handleClose();
       }
-    } catch {
-      setButtonText("Lock");
+    } catch (e: any) {
+      setShowError(true);
+      setErrorTitle("Error with transaction");
+      setErrorMessage(
+        `There was an error with the transaction: ${e.toString()}`
+      );
+      setButtonText("Vault");
     }
   };
 
@@ -562,8 +567,8 @@ export function LockAssetModal({
             leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
           >
             <div>
-              <div className="relative mx-auto mt-6 max-w-screen-2xl rounded-lg border border-sky-800 bg-black px-4 pb-4 pt-5 text-left shadow-xl sm:my-20 sm:w-full sm:max-w-3xl sm:p-6">
-                <div className="absolute right-0 top-0 hidden pr-4 pt-4 sm:block">
+              <div className="relative mx-auto mt-6 max-w-screen-2xl rounded-lg border-2 border-sky-700 bg-black px-8 pb-4 pt-5 text-left shadow-xl sm:my-20 sm:w-full sm:max-w-3xl sm:p-6">
+                <div className="absolute right-0 top-0 pr-4 pt-4 sm:block">
                   <button
                     type="button"
                     className="rounded-md bg-black text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-sky-500 focus:ring-offset-2 dark:hover:text-gray-400"
@@ -571,7 +576,7 @@ export function LockAssetModal({
                   >
                     <span className="sr-only">Close</span>
                     <XMarkIcon
-                      className="h-6 w-6 text-sky-500 hover:text-sky-600 dark:text-sky-500 dark:hover:text-sky-500 bg-slate-900 rounded-lg"
+                      className="h-6 w-6 text-sky-500 hover:text-sky-600 dark:text-sky-600 dark:hover:text-sky-500 bg-neutral-900 rounded"
                       aria-hidden="true"
                     />
                   </button>
@@ -593,6 +598,7 @@ export function LockAssetModal({
                     numTokens={numTokens}
                     setNumTokens={setNumTokens}
                     selectedRow={selectedRow}
+                    nativeToken={nativeToken}
                   />
                 ) : showLockModeSection ? (
                   <LockModeSection

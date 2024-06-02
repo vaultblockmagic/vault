@@ -42,10 +42,10 @@ export function WalletBeam() {
         </Circle>
         <div className="flex flex-col items-center justify-between gap-6">
           <Circle ref={div5Ref}>
-            <Image src="/Metamask_Logo.svg" alt="metamask" width={30} height={30} />
+            <Image src="/metamask_logo.svg" alt="metamask" width={30} height={30} />
          </Circle>
           <Circle ref={div6Ref}>
-            <Image src="/Metamask_Logo.svg" alt="metamask" width={30} height={30} />
+            <Image src="/metamask_logo.svg" alt="metamask" width={30} height={30} />
          </Circle>
         </div>
       </div>

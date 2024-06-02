@@ -1,4 +1,0 @@
-boto3
-web3
-eth-account
-pyotp

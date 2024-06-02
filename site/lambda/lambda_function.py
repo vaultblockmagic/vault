@@ -8,6 +8,13 @@ from eth_account import Account
 import pyotp
 import hashlib
 from web3.middleware import geth_poa_middleware
+from decimal import Decimal
+
+
+def convert_to_wei(amount):
+    # Convert Gwei to wei
+    wei_amount = Decimal(amount) * (Decimal(10) ** 9)
+    return int(wei_amount)
 
 
 def to_32byte_hex(val):
@@ -330,6 +337,8 @@ def lambda_handler(event, context):
                     "nonce": w3.eth.get_transaction_count(
                         Account.from_key(private_key_three).address
                     ),
+                    "gas": 3000000,
+                    "gasPrice": convert_to_wei(25),
                 }
             )
             signed_txn = w3.eth.account.sign_transaction(
@@ -382,6 +391,8 @@ def lambda_handler(event, context):
                     "nonce": w3.eth.get_transaction_count(
                         Account.from_key(private_key_three).address
                     ),
+                    "gas": 3000000,
+                    "gasPrice": convert_to_wei(25),
                 }
             )
             signed_txn = w3.eth.account.sign_transaction(

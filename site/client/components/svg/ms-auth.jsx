@@ -1,12 +1,11 @@
 import React from "react";
 
-export function MSAuthSVG({width, height}) {
+export function MSAuthSVG(props) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      height={height}
       viewBox="-.7 -.1 511.9 511.9"
-      width={width}
+      {...props}
     >
       <path
         d="m479.8 511.8h-449.1c-17.4 0-31.4-14.1-31.4-31.4v-449.1c0-17.4 14.1-31.4 31.4-31.4h449.1c17.4 0 31.4 14.1 31.4 31.4v449.1c0 17.4-14 31.4-31.4 31.4z"

@@ -10,14 +10,12 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "@/components/ui/alert-dialog"
-import { Button } from "@/components/ui/button"
+} from "@/components/ui/alert-dialog";
+import { Button } from "@/components/ui/button";
 import { useState } from "react";
 
 export function ShimmerButtonDemo({ goToNext }) {
-  const {
-    connectToWeb3
-  } = useStorage();
+  const { connectToWeb3 } = useStorage();
 
   const [showDialog, setShowDialog] = useState(false);
 
@@ -50,20 +48,28 @@ export function ShimmerButtonDemo({ goToNext }) {
       </div>
 
       <AlertDialog open={showDialog} onOpenChange={setShowDialog}>
-        <AlertDialogContent>
+        <AlertDialogContent className="border-sky-700 border-2 rounded-lg">
           <AlertDialogHeader>
             <AlertDialogTitle>Connection Failed</AlertDialogTitle>
             <AlertDialogDescription>
               <div className="font-bold">
-              Failed to connect to Web3. Please check your wallet connection and try again. Please also add arbitrum sepolia to your wallet.
-              <br />
-              <br />
-              <a href="https://chainlist.org/chain/421614" className="underline text-sky-500">https://chainlist.org/chain/421614</a>
+                Failed to connect to Web3. Please check your wallet connection
+                and try again. Add the Arbitrum Sepolia network to your wallet here:
+                <br />
+                <br />
+                <a
+                  href="https://chainlist.org/chain/421614"
+                  className="underline text-sky-500"
+                >
+                  https://chainlist.org/chain/421614
+                </a>
               </div>
             </AlertDialogDescription>
           </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogAction onClick={() => setShowDialog(false)}>OK</AlertDialogAction>
+          <AlertDialogFooter className="flex justify-center items-center">
+            <AlertDialogAction onClick={() => setShowDialog(false)} className="w-1/6 h-3/4">
+              OK
+            </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>

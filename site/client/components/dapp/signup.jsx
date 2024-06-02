@@ -35,9 +35,14 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { set } from "date-fns";
+import { toast } from 'sonner'
 
-export default function Signup({ goToNext }) {
+export default function Signup({
+  goToNext,
+  setShowError,
+  setErrorTitle,
+  setErrorMessage,
+}) {
   const ref = useRef(null);
   const [activeTab, setActiveTab] = useState("account");
   const [recover, setRecover] = useState(false);
@@ -61,6 +66,9 @@ export default function Signup({ goToNext }) {
             setActiveTab={setActiveTab}
             activeTab={activeTab}
             setRecover={setRecover}
+            setShowError={setShowError}
+            setErrorTitle={setErrorTitle}
+            setErrorMessage={setErrorMessage}
           />
         )}
         {activeTab === "account" && !recover && (
@@ -69,6 +77,9 @@ export default function Signup({ goToNext }) {
             setActiveTab={setActiveTab}
             activeTab={activeTab}
             setRecover={setRecover}
+            setShowError={setShowError}
+            setErrorTitle={setErrorTitle}
+            setErrorMessage={setErrorMessage}
           />
         )}
         {activeTab === "security" && <MFASetup goToNext={goToNext} />}
@@ -77,7 +88,15 @@ export default function Signup({ goToNext }) {
   );
 }
 
-function SignupForm({ goToNext, setActiveTab, activeTab, setRecover }) {
+function SignupForm({
+  goToNext,
+  setActiveTab,
+  activeTab,
+  setRecover,
+  setShowError,
+  setErrorTitle,
+  setErrorMessage,
+}) {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("Form submitted");
@@ -120,42 +139,53 @@ function SignupForm({ goToNext, setActiveTab, activeTab, setRecover }) {
   } = useStorage();
 
   const handleClick = async () => {
-    let suffixedUsername = username + ".vault";
-    console.log(suffixedUsername, password);
+    try {
+      let suffixedUsername = username + ".vault";
+      console.log(suffixedUsername, password);
 
-    let [first, second] = splitTo24(password);
-    [first, second] = [stringToBigInt(first), stringToBigInt(second)];
-    let hash = await poseidon([first, second]);
+      let [first, second] = splitTo24(password);
+      [first, second] = [stringToBigInt(first), stringToBigInt(second)];
+      let hash = await poseidon([first, second]);
 
-    const result = await checkUsernameAndPassword(
-      suffixedUsername,
-      String(hash)
-    );
-
-    if (result === "PROCEED_MFA") {
-      // await setUsername(suffixedUsername, String(hash));
-      await registerENS(suffixedUsername, String(hash));
-      setStorage("username", suffixedUsername);
-      let registerMFAResponse = await registerMFA(suffixedUsername);
-      setStorage("qr_uri_one", registerMFAResponse["qr_uri_one"]);
-      setStorage("qr_uri_two", registerMFAResponse["qr_uri_two"]);
-      let accs = await web3.eth.getAccounts();
-      console.log(accs[0]);
-      let registerPasswordResponse = await registerPassword(
+      const result = await checkUsernameAndPassword(
         suffixedUsername,
-        password
+        String(hash)
       );
-      setStorage("password", password);
-      setActiveTab("security");
-    } else if (result === "SKIP_MFA") {
-      setStorage("username", suffixedUsername);
-      setStorage("password", password);
-      let accs = await web3.eth.getAccounts();
-      console.log(accs[0]);
-      goToNext();
-    } else {
-      console.log(result);
-      setShowDialog(true);
+
+      if (result === "PROCEED_MFA") {
+        // await setUsername(suffixedUsername, String(hash));
+        await registerENS(suffixedUsername, String(hash));
+        setStorage("username", suffixedUsername);
+        let registerMFAResponse = await registerMFA(suffixedUsername);
+        setStorage("qr_uri_one", registerMFAResponse["qr_uri_one"]);
+        setStorage("qr_uri_two", registerMFAResponse["qr_uri_two"]);
+        let accs = await web3.eth.getAccounts();
+        console.log(accs[0]);
+        let registerPasswordResponse = await registerPassword(
+          suffixedUsername,
+          password
+        );
+        setStorage("password", password);
+        setActiveTab("security");
+      } else if (result === "SKIP_MFA") {
+        setStorage("username", suffixedUsername);
+        setStorage("password", password);
+        let accs = await web3.eth.getAccounts();
+        console.log(accs[0]);
+        toast.success("Login successful as " + suffixedUsername)
+        goToNext();
+      } else {
+        console.log(result);
+        toast.error("Please initiate sign up again.")
+        setShowDialog(true);
+      }
+    } catch (e) {
+      setShowError(true);
+      setErrorTitle("Error with transaction");
+      setErrorMessage(
+        `There was an error with the transaction: ${e.toString()}`
+      );
+      setButtonText("Vault");
     }
   };
 
@@ -254,7 +284,11 @@ function SignupForm({ goToNext, setActiveTab, activeTab, setRecover }) {
           </form>
         </CardContent>
         <CardFooter>
-          <Button onClick={handleClick}>Next</Button>
+          <Button onClick={handleClick}>
+            {username.trim() !== "" && usernameAvailability === "existing"
+              ? "Login"
+              : "Next"}
+          </Button>
         </CardFooter>
         <div className="mb-4 text-sm text-center text-gray-500">
           existing account compromised?{" "}
@@ -274,7 +308,7 @@ function SignupForm({ goToNext, setActiveTab, activeTab, setRecover }) {
         />
       </Card>
       <AlertDialog open={showDialog} onOpenChange={setShowDialog}>
-        <AlertDialogContent>
+        <AlertDialogContent className="border-sky-700 border-2 rounded-lg">
           <AlertDialogHeader>
             <AlertDialogTitle>Login Error</AlertDialogTitle>
             <AlertDialogDescription>
@@ -282,8 +316,8 @@ function SignupForm({ goToNext, setActiveTab, activeTab, setRecover }) {
               match the registered wallet for the username.
             </AlertDialogDescription>
           </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogAction onClick={() => setShowDialog(false)}>
+          <AlertDialogFooter className="flex justify-center items-center">
+            <AlertDialogAction onClick={() => setShowError(false)} className="w-1/6 h-3/4">
               OK
             </AlertDialogAction>
           </AlertDialogFooter>
@@ -293,7 +327,15 @@ function SignupForm({ goToNext, setActiveTab, activeTab, setRecover }) {
   );
 }
 
-function RecoveryForm({ goToNext, setActiveTab, activeTab, setRecover }) {
+function RecoveryForm({
+  goToNext,
+  setActiveTab,
+  activeTab,
+  setRecover,
+  setShowError,
+  setErrorTitle,
+  setErrorMessage,
+}) {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("Form submitted");
@@ -321,12 +363,14 @@ function RecoveryForm({ goToNext, setActiveTab, activeTab, setRecover }) {
     setPasswordText(event.target.value);
   };
 
-  const { checkUsernameExists, recoverENS } = useStorage();
+  const { checkUsernameExists, recoverENS, setStorage } = useStorage();
 
   const handleClick = async () => {
     let suffixedUsername = username + ".vault";
-    await recoverENS(suffixedUsername, password)
-    goToNext()
+    await recoverENS(suffixedUsername, password);
+    setStorage("username", suffixedUsername);
+    setStorage("password", password);
+    goToNext();
   };
 
   return (
@@ -422,7 +466,7 @@ function RecoveryForm({ goToNext, setActiveTab, activeTab, setRecover }) {
         />
       </Card>
       <AlertDialog open={showDialog} onOpenChange={setShowDialog}>
-        <AlertDialogContent>
+        <AlertDialogContent className="border-sky-700 border-2 rounded-lg">
           <AlertDialogHeader>
             <AlertDialogTitle>Login Error</AlertDialogTitle>
             <AlertDialogDescription>
@@ -430,8 +474,8 @@ function RecoveryForm({ goToNext, setActiveTab, activeTab, setRecover }) {
               match the registered wallet for the username.
             </AlertDialogDescription>
           </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogAction onClick={() => setShowDialog(false)}>
+          <AlertDialogFooter className="flex justify-center items-center">
+            <AlertDialogAction onClick={() => setShowError(false)} className="w-1/6 h-3/4">
               OK
             </AlertDialogAction>
           </AlertDialogFooter>

@@ -3,11 +3,12 @@ import { GoogleAuthSVG } from "./svg/google-auth";
 import { MSAuthSVG } from "./svg/ms-auth";
 import { Logo } from "./svg/logo";
 import { Password } from "./svg/password";
+import { Chainlink } from "./svg/chainlink-logo";
 
 export const authOptionsDefault = [
     {
       name: "Google Authenticator",
-      icon: <GoogleAuthSVG width="20" height="20" />,
+      icon: <GoogleAuthSVG className="w-5 h-5" />,
       checked: false,
       address: "0xA755E55b2a177d626B6e5db8C400aEc9C7Bc0Eb5",
       confirm: false,
@@ -16,7 +17,7 @@ export const authOptionsDefault = [
     },
     {
       name: "Microsoft Authenticator",
-      icon: <MSAuthSVG width="20" height="20" />,
+      icon: <MSAuthSVG className="w-5 h-5" />,
       checked: false,
       address: "0x329e4D3Cb8Fe41cfbB6D58DE9CDcef59E0eb8201",
       confirm: false,
@@ -25,7 +26,7 @@ export const authOptionsDefault = [
     },
     {
       name: "Chainlink MFA",
-      icon: <Logo className="w-5 h-5" />,
+      icon: <Chainlink className="w-5 h-5 text-[#2a5ada] fill-[#2a5ada]" />,
       checked: false,
       address: "0x661B556d4756C835D3A72779aCB32612E4243B56",
       confirm: false,
