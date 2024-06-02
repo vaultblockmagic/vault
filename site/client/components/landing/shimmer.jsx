@@ -50,26 +50,27 @@ export function ShimmerButtonDemo({ goToNext }) {
       <AlertDialog open={showDialog} onOpenChange={setShowDialog}>
         <AlertDialogContent className="border-sky-700 border-2 rounded-lg">
           <AlertDialogHeader>
-            <AlertDialogTitle>Connection Failed</AlertDialogTitle>
+            <AlertDialogTitle className="flex">
+              Connection Failed
+            </AlertDialogTitle>
             <AlertDialogDescription>
-              <div className="font-bold">
+              <div className="font-bold flex text-justify">
                 Failed to connect to Web3. Please check your wallet connection
-                and try again. Add the Arbitrum Sepolia network to your wallet here:
+                and try again.
                 <br />
                 <br />
-                <a
-                  href="https://chainlist.org/chain/421614"
-                  className="underline text-sky-500"
-                >
-                  https://chainlist.org/chain/421614
-                </a>
               </div>
             </AlertDialogDescription>
           </AlertDialogHeader>
-          <AlertDialogFooter className="flex justify-center items-center">
-            <AlertDialogAction onClick={() => setShowDialog(false)} className="w-1/6 h-3/4">
-              OK
-            </AlertDialogAction>
+          <AlertDialogFooter className="flex justify-end">
+            <div className="flex justify-end">
+              <AlertDialogAction
+                onClick={() => setShowDialog(false)}
+                className="h-3/4"
+              >
+                OK
+              </AlertDialogAction>
+            </div>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
