@@ -1,7 +1,7 @@
 "use client";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
- 
+
 interface BlurIntProps {
   word: string;
   className?: string;
@@ -17,7 +17,7 @@ const BlurIn = ({ word, className, variant, duration = 1 }: BlurIntProps) => {
     visible: { filter: "blur(0px)", opacity: 1 },
   };
   const combinedVariants = variant || defaultVariants;
- 
+
   return (
     <motion.h1
       initial="hidden"
@@ -33,5 +33,5 @@ const BlurIn = ({ word, className, variant, duration = 1 }: BlurIntProps) => {
     </motion.h1>
   );
 };
- 
+
 export default BlurIn;

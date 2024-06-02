@@ -2,11 +2,7 @@ import React from "react";
 
 export function GoogleAuthSVG(props) {
   return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 24 24"
-      {...props}
-    >
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" {...props}>
       <link type="text/css" rel="stylesheet" id="dark-mode-custom-link" />
       <link type="text/css" rel="stylesheet" id="dark-mode-general-link" />
       <style lang="en" type="text/css" id="dark-mode-custom-style" />

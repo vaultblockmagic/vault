@@ -18,7 +18,7 @@ const AllocateSection = ({
   setNumTokens,
   selectedRow,
   handleNext,
-  nativeToken
+  nativeToken,
 }: any) => {
   const handleTokensChange = (e: any) => {
     setNumTokens(e.target.value);
@@ -45,7 +45,7 @@ const AllocateSection = ({
             </div>
           </div>
         </div>
-         <div className="my-9"></div>
+        <div className="my-9"></div>
 
         <div className="w-full flex items-center justify-center">
           <Button
@@ -58,7 +58,10 @@ const AllocateSection = ({
             <BottomGradient />
           </Button>
         </div>
-        <div className="text-xs w-full text-center mt-8">&#x26A0; {`You will need a sufficient ${nativeToken} balance to complete the vault.`}</div>
+        <div className="text-xs w-full text-center mt-8">
+          &#x26A0;{" "}
+          {`You will need a sufficient ${nativeToken} balance to complete the vault.`}
+        </div>
       </div>
     </>
   );
@@ -191,7 +194,9 @@ const VaultSection = ({
             Next
           </Button>
         </div>
-        <div className="text-xs w-full text-center mt-8">&#x26A0; {`Each additional MFA method will cost 1 VAULT token.`}</div>
+        <div className="text-xs w-full text-center mt-8">
+          &#x26A0; {`Each additional MFA method will cost 1 VAULT token.`}
+        </div>
       </div>
     </>
   );
@@ -205,7 +210,7 @@ export function VaultAssetModal({
   setShowError,
   setErrorTitle,
   setErrorMessage,
-  nativeToken
+  nativeToken,
 }: any) {
   useEffect(() => {
     console.log("Selected row in VaultAssetModal:", selectedRow);
@@ -236,7 +241,7 @@ export function VaultAssetModal({
       console.log(
         `${selectedRow.tokenAddress}, ${rawBalanceNumber.toString()}, ${
           selectedRow?.tokenId ?? ""
-        }, ${selectedRow.isERC20}, ${customPwdChecked}, ${checkedAuthOptions}`
+        }, ${selectedRow.isERC20}, ${customPwdChecked}, ${checkedAuthOptions}`,
       );
 
       await batchVaultAndSetMFA(
@@ -245,7 +250,7 @@ export function VaultAssetModal({
         selectedRow?.tokenId ?? "0",
         selectedRow.isERC20,
         customPwdChecked,
-        checkedAuthOptions
+        checkedAuthOptions,
       );
       setButtonText("Awaiting transaction..");
       fetchAssets();
@@ -255,7 +260,7 @@ export function VaultAssetModal({
       setShowError(true);
       setErrorTitle("Error with transaction");
       setErrorMessage(
-        `There was an error with the transaction: ${e.toString()}`
+        `There was an error with the transaction: ${e.toString()}`,
       );
       setButtonText("Vault");
     }
@@ -286,14 +291,14 @@ export function VaultAssetModal({
           return { ...option, checked: !option.checked, confirm: false };
         }
         return option;
-      })
+      }),
     );
   };
 
   const checkCustomPwd = (
     clickedName: string,
     customPwd: string,
-    confirmCustomPwd: string
+    confirmCustomPwd: string,
   ) => {
     if (customPwd === confirmCustomPwd) {
       setCustomPwdChecked(customPwd);
@@ -310,7 +315,7 @@ export function VaultAssetModal({
           }
           console.log(option);
           return option;
-        })
+        }),
       );
     }
   };
@@ -344,52 +349,52 @@ export function VaultAssetModal({
             leaveFrom="opacity-100 translate-y-0 sm:scale-100"
             leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
           >
-              <div className="relative mx-auto mt-6 max-w-screen-2xl rounded-lg border-2 border-sky-700 bg-black px-4 pb-4 pt-5 text-left shadow-xl sm:my-20 sm:w-full sm:max-w-3xl sm:p-6 px-6">
+            <div className="relative mx-auto mt-6 max-w-screen-2xl rounded-lg border-2 border-sky-700 bg-black px-4 pb-4 pt-5 text-left shadow-xl sm:my-20 sm:w-full sm:max-w-3xl sm:p-6 px-6">
               <div className="absolute right-0 top-0 pr-4 pt-4 sm:block">
-                  <button
-                    type="button"
-                    className="rounded-md bg-neutral-950 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-sky-500 focus:ring-offset-2 dark:hover:text-gray-400"
-                    onClick={handleClose}
-                  >
-                    <span className="sr-only">Close</span>
-                    <XMarkIcon
-                      className="h-6 w-6 text-sky-500 hover:text-sky-600 dark:text-sky-600 dark:hover:text-sky-500 bg-neutral-900 rounded"
-                      aria-hidden="true"
-                    />
-                  </button>
-                </div>
-                <Dialog.Title as="h3" className="text-xl font-bold text-white">
-                  {showAllocateSection
-                    ? "Allocate"
-                    : showSecureSection
+                <button
+                  type="button"
+                  className="rounded-md bg-neutral-950 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-sky-500 focus:ring-offset-2 dark:hover:text-gray-400"
+                  onClick={handleClose}
+                >
+                  <span className="sr-only">Close</span>
+                  <XMarkIcon
+                    className="h-6 w-6 text-sky-500 hover:text-sky-600 dark:text-sky-600 dark:hover:text-sky-500 bg-neutral-900 rounded"
+                    aria-hidden="true"
+                  />
+                </button>
+              </div>
+              <Dialog.Title as="h3" className="text-xl font-bold text-white">
+                {showAllocateSection
+                  ? "Allocate"
+                  : showSecureSection
                     ? "Secure"
                     : "Summary"}
-                </Dialog.Title>
-                {showAllocateSection ? (
-                  <AllocateSection
-                    numTokens={numTokens}
-                    setNumTokens={setNumTokens}
-                    selectedRow={selectedRow}
-                    handleNext={handleNext}
-                    nativeToken={nativeToken}
-                  />
-                ) : showSecureSection ? (
-                  <VaultSection
-                    handleAuthOptionClick={handleAuthOptionClick}
-                    handleNext={handleNext}
-                    checkCustomPwd={checkCustomPwd}
-                    authOptions={authOptions}
-                  />
-                ) : (
-                  <SummarySection
-                    numTokens={numTokens}
-                    selectedRow={selectedRow}
-                    authOptions={authOptions}
-                    completeVault={completeVault}
-                    buttonText={buttonText}
-                  />
-                )}
-              </div>
+              </Dialog.Title>
+              {showAllocateSection ? (
+                <AllocateSection
+                  numTokens={numTokens}
+                  setNumTokens={setNumTokens}
+                  selectedRow={selectedRow}
+                  handleNext={handleNext}
+                  nativeToken={nativeToken}
+                />
+              ) : showSecureSection ? (
+                <VaultSection
+                  handleAuthOptionClick={handleAuthOptionClick}
+                  handleNext={handleNext}
+                  checkCustomPwd={checkCustomPwd}
+                  authOptions={authOptions}
+                />
+              ) : (
+                <SummarySection
+                  numTokens={numTokens}
+                  selectedRow={selectedRow}
+                  authOptions={authOptions}
+                  completeVault={completeVault}
+                  buttonText={buttonText}
+                />
+              )}
+            </div>
           </Transition.Child>
         </div>
       </Dialog>

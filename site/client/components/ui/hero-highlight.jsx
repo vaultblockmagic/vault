@@ -1,5 +1,5 @@
 "use client";
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils";
 import { useMotionValue, motion, useMotionTemplate } from "framer-motion";
 import React from "react";
 
@@ -23,7 +23,7 @@ export const HeroHighlight = ({
     <div
       className={cn(
         "fixed inset-0 w-full min-h-screen group",
-        containerClassName
+        containerClassName,
       )}
       onMouseMove={handleMouseMove}
     >
@@ -78,7 +78,7 @@ export const Highlight = ({ children, className }) => {
       }}
       className={cn(
         `relative inline-block pb-1  px-1 rounded-lg bg-gradient-to-r from-sky-500 to-teal-500`,
-        className
+        className,
       )}
     >
       {children}

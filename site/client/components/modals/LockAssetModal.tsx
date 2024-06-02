@@ -17,7 +17,7 @@ const AllocateSection = ({
   numTokens,
   setNumTokens,
   selectedRow,
-  nativeToken
+  nativeToken,
 }: any) => {
   const handleTokensChange = (e: any) => {
     setNumTokens(e.target.value);
@@ -53,7 +53,10 @@ const AllocateSection = ({
             <BottomGradient />
           </Button>
         </div>
-        <div className="text-xs w-full text-center mt-8">&#x26A0; {`You will need a sufficient ${nativeToken} balance to complete the vault.`}</div>
+        <div className="text-xs w-full text-center mt-8">
+          &#x26A0;{" "}
+          {`You will need a sufficient ${nativeToken} balance to complete the vault.`}
+        </div>
       </div>
     </>
   );
@@ -193,7 +196,9 @@ const VaultSection = ({
             <BottomGradient />
           </Button>
         </div>
-        <div className="text-xs w-full text-center mt-8">&#x26A0; {`Each additional MFA method will cost 1 VAULT token.`}</div>
+        <div className="text-xs w-full text-center mt-8">
+          &#x26A0; {`Each additional MFA method will cost 1 VAULT token.`}
+        </div>
       </div>
     </>
   );
@@ -367,7 +372,7 @@ export function LockAssetModal({
   setShowError,
   setErrorTitle,
   setErrorMessage,
-  nativeToken
+  nativeToken,
 }: any) {
   useEffect(() => {
     console.log("Selected row in LockAssetModal:", selectedRow);
@@ -411,18 +416,18 @@ export function LockAssetModal({
                 .setFullYear(
                   lockDate?.getFullYear() as number,
                   lockDate?.getMonth() as number,
-                  lockDate?.getDate() as number
+                  lockDate?.getDate() as number,
                 )
                 .toString();
         console.log(combinedDateTime);
         await timelockTokens(
           selectedRow.tokenAddress,
-          combinedDateTime as string
+          combinedDateTime as string,
         );
         handleClose();
       } else {
         const customZKPasswordOption = authOptions.find(
-          (option) => option.name === "Custom ZK Password"
+          (option) => option.name === "Custom ZK Password",
         );
         const customPassword = customZKPasswordOption
           ? customZKPasswordOption.otp
@@ -436,7 +441,7 @@ export function LockAssetModal({
           selectedRow.tokenAddress,
           selectedRow.isERC20,
           customPassword,
-          checkedAuthOptions
+          checkedAuthOptions,
         );
         fetchAssets();
         // batchLockAndSetMFA: (
@@ -451,7 +456,7 @@ export function LockAssetModal({
       setShowError(true);
       setErrorTitle("Error with transaction");
       setErrorMessage(
-        `There was an error with the transaction: ${e.toString()}`
+        `There was an error with the transaction: ${e.toString()}`,
       );
       setButtonText("Vault");
     }
@@ -493,7 +498,7 @@ export function LockAssetModal({
         .setFullYear(
           lockDate?.getFullYear() as number,
           lockDate?.getMonth() as number,
-          lockDate?.getDate() as number
+          lockDate?.getDate() as number,
         );
       console.log(`unixFullDateTime: ${unixFullDateTime}`);
       const dateTime = new Date(unixFullDateTime).toLocaleString();
@@ -508,14 +513,14 @@ export function LockAssetModal({
           return { ...option, checked: !option.checked, confirm: false };
         }
         return option;
-      })
+      }),
     );
   };
 
   const checkCustomPwd = (
     clickedName: string,
     customPwd: string,
-    confirmCustomPwd: string
+    confirmCustomPwd: string,
   ) => {
     if (customPwd === confirmCustomPwd) {
       setCustomPwdChecked(true);
@@ -532,7 +537,7 @@ export function LockAssetModal({
           }
           console.log(option);
           return option;
-        })
+        }),
       );
     }
   };
@@ -585,12 +590,12 @@ export function LockAssetModal({
                   {showAllocateSection
                     ? "Lock"
                     : showLockModeSection
-                    ? "Lock Mode"
-                    : showTimeSection
-                    ? "Time"
-                    : showSecureSection
-                    ? "Secure"
-                    : "Summary"}
+                      ? "Lock Mode"
+                      : showTimeSection
+                        ? "Time"
+                        : showSecureSection
+                          ? "Secure"
+                          : "Summary"}
                 </Dialog.Title>
                 {showAllocateSection ? (
                   <AllocateSection

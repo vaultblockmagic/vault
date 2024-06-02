@@ -1,5 +1,5 @@
 "use client";
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils";
 import { motion, MotionValue } from "framer-motion";
 import React from "react";
 import { HoverBorderGradient } from "./hover-border-gradient";
@@ -24,9 +24,9 @@ export const GoogleGeminiEffect = ({
       </p> */}
       <div className="w-full h-[1200px] -top-60 flex items-center justify-center bg-black bg-dot-white/[0.3] absolute">
         <div className="mb-32">
-            <HoverBorderGradient className="py-3 font-bold">
-              Secure My Assets
-            </HoverBorderGradient>
+          <HoverBorderGradient className="py-3 font-bold">
+            Secure My Assets
+          </HoverBorderGradient>
         </div>
       </div>
       <svg

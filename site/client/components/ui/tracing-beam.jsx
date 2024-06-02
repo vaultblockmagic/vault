@@ -7,12 +7,9 @@ import {
   useVelocity,
   useSpring,
 } from "framer-motion";
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils";
 
-export const TracingBeam = ({
-  children,
-  className,
-}) => {
+export const TracingBeam = ({ children, className }) => {
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -33,14 +30,14 @@ export const TracingBeam = ({
     {
       stiffness: 500,
       damping: 90,
-    }
+    },
   );
   const y2 = useSpring(
     useTransform(scrollYProgress, [0, 1], [50, svgHeight - 200]),
     {
       stiffness: 500,
       damping: 90,
-    }
+    },
   );
 
   return (

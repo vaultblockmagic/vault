@@ -1,7 +1,7 @@
 "use client";
 
 import { Icons } from "./icons";
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils";
 import { AnimatedBeam } from "./animated-beam";
 import React, { forwardRef, useRef } from "react";
 

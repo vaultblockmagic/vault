@@ -2,10 +2,7 @@ import React from "react";
 
 export function MetamaskLogo(props) {
   return (
-    <svg
-      viewBox="0 0 48 48"
-      {...props}
-    >
+    <svg viewBox="0 0 48 48" {...props}>
       <polyline
         class="a"
         points="23.971 35.016 26.233 35.016 26.959 38.431 23.624 38.431"

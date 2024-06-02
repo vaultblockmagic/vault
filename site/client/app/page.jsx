@@ -46,7 +46,10 @@ export default function Page() {
             <AlertDialogDescription>{errorMessage}</AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter className="flex justify-center items-center">
-            <AlertDialogAction onClick={() => setShowError(false)} className="w-1/6 h-3/4">
+            <AlertDialogAction
+              onClick={() => setShowError(false)}
+              className="w-1/6 h-3/4"
+            >
               OK
             </AlertDialogAction>
           </AlertDialogFooter>

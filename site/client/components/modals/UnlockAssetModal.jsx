@@ -37,7 +37,7 @@ const VaultSection = ({
         </div>
 
         <div className="mt-0 w-full items-center justify-center text-center">
-        <div className="my-9"></div>
+          <div className="my-9"></div>
           <div className="w-full flex items-center justify-center">
             <Button
               className="relative py-2 h-2/3 w-auto text-black rounded-md font-medium px-12"
@@ -58,7 +58,7 @@ const VaultSection = ({
             </Button>
           </div>
           {authOptions.find(
-            (a) => a.address === "0x661B556d4756C835D3A72779aCB32612E4243B56"
+            (a) => a.address === "0x661B556d4756C835D3A72779aCB32612E4243B56",
           ) ? (
             <div className="text-xs w-full text-center mt-8">
               &#x26A0;{" "}
@@ -93,18 +93,18 @@ const AuthSelection = ({ authOption, authOptions, setAuthOptions }) => {
 
   return (
     <Popover
-    open={showInput}
-    onOpenChange={() => {
-      if (
-        authOption.address === "0x661B556d4756C835D3A72779aCB32612E4243B56"
-      ) {
-        setCompleted(true);
-        setShowInput(false);
-      } else {
-        console.log("open changed!!!");
-        setShowInput(!showInput);
-      }
-    }}
+      open={showInput}
+      onOpenChange={() => {
+        if (
+          authOption.address === "0x661B556d4756C835D3A72779aCB32612E4243B56"
+        ) {
+          setCompleted(true);
+          setShowInput(false);
+        } else {
+          console.log("open changed!!!");
+          setShowInput(!showInput);
+        }
+      }}
     >
       <PopoverTrigger className="w-2/3">
         <div className="">
@@ -113,8 +113,8 @@ const AuthSelection = ({ authOption, authOptions, setAuthOptions }) => {
               completed
                 ? "bg-emerald-800 border-emerald-400"
                 : showInput
-                ? "bg-yellow-700 border-yellow-500"
-                : "bg-neutral-800 border-neutral-600"
+                  ? "bg-yellow-700 border-yellow-500"
+                  : "bg-neutral-800 border-neutral-600"
             } border-2 rounded-lg px-4 py-2 my-1 cursor-pointer full`}
           >
             <div className="pr-1">{authOption.icon}</div>
@@ -239,8 +239,8 @@ export function UnlockAssetModal({
     selectedRow.lockAuthOptions
       ? setAuthOptions(
           authOptionsDefault.filter((a) =>
-            selectedRow.lockAuthOptions.includes(a.address)
-          )
+            selectedRow.lockAuthOptions.includes(a.address),
+          ),
         )
       : [];
   };
@@ -260,19 +260,19 @@ export function UnlockAssetModal({
       console.log(selectedRow);
 
       const customZKPassAuthOption = authOptions.filter(
-        (a) => a.name === "Custom ZK Password"
+        (a) => a.name === "Custom ZK Password",
       );
       const customZKPass =
         customZKPassAuthOption.length > 0 ? customZKPassAuthOption[0].otp : "";
 
       const googleAuthOption = authOptions.filter(
-        (a) => a.name === "Google Authenticator"
+        (a) => a.name === "Google Authenticator",
       );
       const otpValue1 =
         googleAuthOption.length > 0 ? googleAuthOption[0].otp : "";
 
       const msAuthOption = authOptions.filter(
-        (a) => a.name === "Microsoft Authenticator"
+        (a) => a.name === "Microsoft Authenticator",
       );
       console.log("msAuthOption");
       console.log(msAuthOption);
@@ -286,7 +286,7 @@ export function UnlockAssetModal({
         customZKPass,
         otpValue1,
         otpValue2,
-        mfaProviders
+        mfaProviders,
       );
 
       fetchAssets();
@@ -307,7 +307,7 @@ export function UnlockAssetModal({
       setShowError(true);
       setErrorTitle("Error with transaction");
       setErrorMessage(
-        `There was an error with the transaction: ${e.toString()}`
+        `There was an error with the transaction: ${e.toString()}`,
       );
       setButtonText("Unlock");
     }

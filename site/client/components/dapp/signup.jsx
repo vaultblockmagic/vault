@@ -35,7 +35,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { toast } from 'sonner'
+import { toast } from "sonner";
 
 export default function Signup({
   goToNext,
@@ -149,7 +149,7 @@ function SignupForm({
 
       const result = await checkUsernameAndPassword(
         suffixedUsername,
-        String(hash)
+        String(hash),
       );
 
       if (result === "PROCEED_MFA") {
@@ -163,7 +163,7 @@ function SignupForm({
         console.log(accs[0]);
         let registerPasswordResponse = await registerPassword(
           suffixedUsername,
-          password
+          password,
         );
         setStorage("password", password);
         setActiveTab("security");
@@ -172,18 +172,18 @@ function SignupForm({
         setStorage("password", password);
         let accs = await web3.eth.getAccounts();
         console.log(accs[0]);
-        toast.success("Login successful as " + suffixedUsername)
+        toast.success("Login successful as " + suffixedUsername);
         goToNext();
       } else {
         console.log(result);
-        toast.error("Please initiate sign up again.")
+        toast.error("Please initiate sign up again.");
         setShowDialog(true);
       }
     } catch (e) {
       setShowError(true);
       setErrorTitle("Error with transaction");
       setErrorMessage(
-        `There was an error with the transaction: ${e.toString()}`
+        `There was an error with the transaction: ${e.toString()}`,
       );
       setButtonText("Vault");
     }
@@ -317,7 +317,10 @@ function SignupForm({
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter className="flex justify-center items-center">
-            <AlertDialogAction onClick={() => setShowError(false)} className="w-1/6 h-3/4">
+            <AlertDialogAction
+              onClick={() => setShowError(false)}
+              className="w-1/6 h-3/4"
+            >
               OK
             </AlertDialogAction>
           </AlertDialogFooter>
@@ -475,7 +478,10 @@ function RecoveryForm({
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter className="flex justify-center items-center">
-            <AlertDialogAction onClick={() => setShowError(false)} className="w-1/6 h-3/4">
+            <AlertDialogAction
+              onClick={() => setShowError(false)}
+              className="w-1/6 h-3/4"
+            >
               OK
             </AlertDialogAction>
           </AlertDialogFooter>

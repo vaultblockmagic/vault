@@ -15,7 +15,7 @@ const BentoGrid = ({
     <div
       className={cn(
         "grid w-full auto-rows-[20rem] grid-cols-8 gap-4",
-        className
+        className,
       )}
     >
       {children}
@@ -59,7 +59,7 @@ const BentoCard = ({
         // dark styles
         "transform-gpu dark:bg-black dark:[border:1px_solid_rgba(255,255,255,.1)] dark:[box-shadow:0_-20px_80px_-20px_#ffffff1f_inset]",
         "before:absolute before:inset-0 before:border-2 before:border-transparent before:transition-all before:duration-300 hover:before:border-sky-600 before:rounded-xl before:z-10",
-        className
+        className,
       )}
       onMouseEnter={onMouseEnter || handleMouseEnter}
     >
@@ -73,10 +73,9 @@ const BentoCard = ({
       </div>
       <div
         className={cn(
-          "pointer-events-none absolute bottom-0 flex w-full translate-y-10 transform-gpu flex-row items-center p-4 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100"
+          "pointer-events-none absolute bottom-0 flex w-full translate-y-10 transform-gpu flex-row items-center p-4 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100",
         )}
-      >
-      </div>
+      ></div>
       <div className="pointer-events-none absolute inset-0 transform-gpu transition-all duration-300 group-hover:bg-black/[.03] group-hover:dark:bg-neutral-800/10" />
     </div>
   );

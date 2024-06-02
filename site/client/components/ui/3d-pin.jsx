@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils";
 
 export const PinContainer = ({
   children,
@@ -11,7 +11,7 @@ export const PinContainer = ({
   containerClassName,
 }) => {
   const [transform, setTransform] = useState(
-    "translate(-50%,-50%) rotateX(0deg)"
+    "translate(-50%,-50%) rotateX(0deg)",
   );
 
   const onMouseEnter = () => {
@@ -25,7 +25,7 @@ export const PinContainer = ({
     <div
       className={cn(
         "relative group/pin z-50  w-full cursor-pointer",
-        containerClassName
+        containerClassName,
       )}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
@@ -51,10 +51,7 @@ export const PinContainer = ({
   );
 };
 
-export const PinPerspective = ({
-  title,
-  href,
-}) => {
+export const PinPerspective = ({ title, href }) => {
   return (
     <motion.div className="pointer-events-none  w-96 h-80 flex items-center justify-center opacity-0 group-hover/pin:opacity-100 z-[60] transition duration-500">
       <div className=" w-full h-full -mt-7 flex-none  inset-0">

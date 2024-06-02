@@ -19,7 +19,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { toast } from 'sonner'
+import { toast } from "sonner";
 
 export function MFASetup({ goToNext }) {
   const handleSubmit = (e) => {
@@ -181,10 +181,14 @@ export function MFASetup({ goToNext }) {
                 setRegisteredMFA([...registeredMFA, authName]);
               }
             } else {
-                toast.success("You have successfully registered and been airdroped 10000 VAULT tokens");
-                toast.info("Please allow 2 minutes for arbitrum signup to complete")
-                goToNext();
-              }
+              toast.success(
+                "You have successfully registered and been airdroped 10000 VAULT tokens",
+              );
+              toast.info(
+                "Please allow 2 minutes for arbitrum signup to complete",
+              );
+              goToNext();
+            }
           }}
         >
           {registeredMFA.length === 2 && !showQR ? "Sign Up" : "Next"}
@@ -199,9 +203,7 @@ const QRCodeHolder = ({ url, name }) => {
   console.log(`qrURL: ${url}, name:${name}`);
   return (
     <>
-    <div className="w-full text-white text-center">
-      {name}
-    </div>
+      <div className="w-full text-white text-center">{name}</div>
       <div className="flex w-full text-center text-black items-center justify-center text-sm p-4">
         <div className="rounded-xl border-2 border-sky-500 bg-white p-1">
           <SVG

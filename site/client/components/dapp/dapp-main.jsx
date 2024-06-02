@@ -260,7 +260,7 @@ export default function DappMain({
 
   const refreshWarning = async () => {
     toast.warning(
-      "Fetching asset balances may be delayed or out of date due to network/RPC load."
+      "Fetching asset balances may be delayed or out of date due to network/RPC load.",
     );
   };
 
@@ -415,9 +415,11 @@ export default function DappMain({
                   </AlertDialogHeader>
                   <AlertDialogFooter className="flex justify-end mt-8">
                     <div className="flex justify-end space-x-4">
-                      <AlertDialogCancel className="w-20">Cancel</AlertDialogCancel>
+                      <AlertDialogCancel className="w-20">
+                        Cancel
+                      </AlertDialogCancel>
                       <AlertDialogAction
-                      className="w-20 lg:mt-[0.5rem] md:mt-[0.5rem]"
+                        className="w-20 lg:mt-[0.5rem] md:mt-[0.5rem]"
                         onClick={async () => {
                           console.log("Switching chains...");
                           await switchChain();

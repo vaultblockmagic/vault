@@ -62,7 +62,7 @@ const VaultSection = ({
             </Button>
           </div>
           {authOptions.find(
-            (a) => a.address === "0x661B556d4756C835D3A72779aCB32612E4243B56"
+            (a) => a.address === "0x661B556d4756C835D3A72779aCB32612E4243B56",
           ) ? (
             <div className="text-xs w-full text-center mt-8">
               &#x26A0;{" "}
@@ -117,8 +117,8 @@ const AuthSelection = ({ authOption, authOptions, setAuthOptions }) => {
               completed
                 ? "bg-emerald-800 border-emerald-400"
                 : showInput
-                ? "bg-yellow-700 border-yellow-500"
-                : "bg-neutral-800 border-neutral-600"
+                  ? "bg-yellow-700 border-yellow-500"
+                  : "bg-neutral-800 border-neutral-600"
             } border-2 rounded-lg px-4 py-2 my-1 cursor-pointer full`}
           >
             <div className="pr-1">{authOption.icon}</div>
@@ -242,8 +242,8 @@ export function UnvaultAssetModal({
     selectedRow.vaultAuthOptions
       ? setAuthOptions(
           authOptionsDefault.filter((a) =>
-            selectedRow.vaultAuthOptions.includes(a.address)
-          )
+            selectedRow.vaultAuthOptions.includes(a.address),
+          ),
         )
       : [];
   };
@@ -267,19 +267,19 @@ export function UnvaultAssetModal({
       const rawBalanceNumber = BigInt(readableBalanceNumber * Math.pow(10, 18));
 
       const customZKPassAuthOption = authOptions.filter(
-        (a) => a.name === "Custom ZK Password"
+        (a) => a.name === "Custom ZK Password",
       );
       const customZKPass =
         customZKPassAuthOption.length > 0 ? customZKPassAuthOption[0].otp : "";
 
       const googleAuthOption = authOptions.filter(
-        (a) => a.name === "Google Authenticator"
+        (a) => a.name === "Google Authenticator",
       );
       const otpValue1 =
         googleAuthOption.length > 0 ? googleAuthOption[0].otp : "";
 
       const msAuthOption = authOptions.filter(
-        (a) => a.name === "Microsoft Authenticator"
+        (a) => a.name === "Microsoft Authenticator",
       );
       console.log("msAuthOption");
       console.log(msAuthOption);
@@ -294,7 +294,7 @@ export function UnvaultAssetModal({
         customZKPass,
         otpValue1,
         otpValue2,
-        mfaProviders
+        mfaProviders,
       );
 
       fetchAssets();
@@ -315,7 +315,7 @@ export function UnvaultAssetModal({
       setShowError(true);
       setErrorTitle("Error with transaction");
       setErrorMessage(
-        `There was an error with the transaction: ${e.toString()}`
+        `There was an error with the transaction: ${e.toString()}`,
       );
       setButtonText("Unvault");
     }

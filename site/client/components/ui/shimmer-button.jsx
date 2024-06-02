@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils";
 import React, { CSSProperties } from "react";
 
 const ShimmerButton = React.forwardRef(
@@ -11,7 +11,7 @@ const ShimmerButton = React.forwardRef(
       background = "rgba(0, 0, 0, 1)",
       className,
       children,
-      onClick, 
+      onClick,
       ...props
     },
     ref,
@@ -19,23 +19,21 @@ const ShimmerButton = React.forwardRef(
     return (
       <div className="shadow-[0_0_14px_-5px_rgba(14,165,233,1)] inline-block rounded-full">
         <button
-          style={
-            {
-              "--spread": "90deg",
-              "--shimmer-color": shimmerColor,
-              "--radius": borderRadius,
-              "--speed": shimmerDuration,
-              "--cut": shimmerSize,
-              "--bg": background,
-            }
-          }
+          style={{
+            "--spread": "90deg",
+            "--shimmer-color": shimmerColor,
+            "--radius": borderRadius,
+            "--speed": shimmerDuration,
+            "--cut": shimmerSize,
+            "--bg": background,
+          }}
           className={cn(
             "relative z-0 flex cursor-pointer items-center justify-center overflow-hidden whitespace-nowrap px-6 py-3 text-white [background:var(--bg)] [border-radius:var(--radius)] dark:text-black",
             "transform-gpu transition-transform duration-300 ease-in-out active:translate-y-[1px]",
             className,
           )}
           ref={ref}
-          onClick={onClick} 
+          onClick={onClick}
           {...props}
         >
           {/* spark container */}

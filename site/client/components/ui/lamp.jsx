@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { motion } from "framer-motion";
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils";
 
 export function LampDemo() {
   return (
@@ -33,7 +33,7 @@ export const LampContainer = ({ children, className }) => {
     <div
       className={cn(
         "relative flex h-96 pt-16 flex-col items-center justify-center overflow-hidden bg-black w-full rounded-md z-0",
-        className
+        className,
       )}
     >
       <div className="relative flex w-full flex-1 scale-y-125 items-center justify-center isolate z-0">

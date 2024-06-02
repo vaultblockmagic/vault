@@ -52,7 +52,7 @@ interface StorageContextProps {
   checkUsernameExists: (username: string) => Promise<boolean>;
   checkUsernameAndPassword: (
     username: string,
-    passwordHash: string
+    passwordHash: string,
   ) => Promise<string>;
   generateCoreProof: (inputs: any) => Promise<any>;
   setProofParameters: (proof: any) => any;
@@ -62,13 +62,13 @@ interface StorageContextProps {
     tokenId: string,
     isERC20: boolean,
     password: string,
-    mfaProviders: string[]
+    mfaProviders: string[],
   ) => Promise<void>;
   batchLockAndSetMFA: (
     token: string,
     isERC20: boolean,
     password: string,
-    mfaProviders: string[]
+    mfaProviders: string[],
   ) => Promise<void>;
   batchUnlockAndVerifyMFA: (
     token: string,
@@ -76,7 +76,7 @@ interface StorageContextProps {
     password: string,
     otpOne: string,
     otpTwo: string,
-    mfaProviders: string[]
+    mfaProviders: string[],
   ) => Promise<void>;
   batchUnvaultAndVerifyMFA: (
     token: string,
@@ -85,11 +85,11 @@ interface StorageContextProps {
     password: string,
     otpOne: string,
     otpTwo: string,
-    mfaProviders: string[]
+    mfaProviders: string[],
   ) => Promise<void>;
   timelockTokens: (token: string, time: string) => Promise<void>;
   retrieveUnlockTimestamp: (
-    token: string
+    token: string,
   ) => Promise<{ unlockTimestamp: string; transfersDisabled: boolean } | void>;
   fetchTokenBalances: (address: string) => Promise<any[] | undefined>;
   stringToBigInt: (str: string) => bigint;
@@ -100,7 +100,7 @@ interface StorageContextProps {
     username: string,
     requestId: string,
     otpSecretOne: string,
-    otpSecretTwo: string
+    otpSecretTwo: string,
   ) => Promise<any>;
   registerPassword: (username: string, password: string) => Promise<any>;
   registerENS: (username: string, passwordHash: string) => Promise<void>;
@@ -295,7 +295,7 @@ export const StorageProvider: React.FC<{ children: React.ReactNode }> = ({
         if (newChain === "Arbitrum Sepolia")
           setTimeout(function () {
             toast.warning(
-              "Please confirm transactions on Arbitrum Sepolia quickly, otherwise they may fail during heavy network/RPC load."
+              "Please confirm transactions on Arbitrum Sepolia quickly, otherwise they may fail during heavy network/RPC load.",
             );
           }, 5000);
         return true;
@@ -314,7 +314,7 @@ export const StorageProvider: React.FC<{ children: React.ReactNode }> = ({
       const coreContractAddress = "0xA2673321CC16643103212C52A3118d52D69866A1";
       const contract = new web3.eth.Contract(
         coreContractABI as AbiItem[],
-        coreContractAddress
+        coreContractAddress,
       );
       return contract;
     }
@@ -324,7 +324,7 @@ export const StorageProvider: React.FC<{ children: React.ReactNode }> = ({
     if (web3) {
       const contract = new web3.eth.Contract(
         MirroredERC20ABI as AbiItem[],
-        contractAddress
+        contractAddress,
       );
       return contract;
     }
@@ -334,7 +334,7 @@ export const StorageProvider: React.FC<{ children: React.ReactNode }> = ({
     if (web3) {
       const contract = new web3.eth.Contract(
         MirroredERC721ABI as AbiItem[],
-        contractAddress
+        contractAddress,
       );
       return contract;
     }
@@ -344,7 +344,7 @@ export const StorageProvider: React.FC<{ children: React.ReactNode }> = ({
     if (web3) {
       const contract = new web3.eth.Contract(
         ERC20ABI as AbiItem[],
-        contractAddress
+        contractAddress,
       );
       return contract;
     }
@@ -354,7 +354,7 @@ export const StorageProvider: React.FC<{ children: React.ReactNode }> = ({
     if (web3) {
       const contract = new web3.eth.Contract(
         ERC721ABI as AbiItem[],
-        contractAddress
+        contractAddress,
       );
       return contract;
     }
@@ -365,7 +365,7 @@ export const StorageProvider: React.FC<{ children: React.ReactNode }> = ({
       const contractAddress = "0xf38DA3627847D5eECB37B0C5573F7f327bba8cE0";
       const contract = new web3.eth.Contract(
         MFAManagerABI as AbiItem[],
-        contractAddress
+        contractAddress,
       );
       return contract;
     }
@@ -376,7 +376,7 @@ export const StorageProvider: React.FC<{ children: React.ReactNode }> = ({
       const contractAddress = "0x661B556d4756C835D3A72779aCB32612E4243B56";
       const contract = new web3.eth.Contract(
         ExternalAPIMFAABI as AbiItem[],
-        contractAddress
+        contractAddress,
       );
       return contract;
     }
@@ -410,7 +410,7 @@ export const StorageProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const checkUsernameAndPassword = async (
     username: string,
-    passwordHash: string
+    passwordHash: string,
   ) => {
     if (!web3) {
       return "NO_WEB3";
@@ -488,7 +488,7 @@ export const StorageProvider: React.FC<{ children: React.ReactNode }> = ({
     tokenId: string,
     isERC20: boolean,
     password: string,
-    mfaProviders: string[]
+    mfaProviders: string[],
   ) => {
     if (!web3) {
       return;
@@ -622,7 +622,7 @@ export const StorageProvider: React.FC<{ children: React.ReactNode }> = ({
       console.log(
         `Allowance for ${"0xA2673321CC16643103212C52A3118d52D69866A1"} to ${
           accounts[0]
-        }: ${allowance}`
+        }: ${allowance}`,
       );
 
       if (parseFloat(amount) > parseFloat(allowance as any)) {
@@ -646,7 +646,7 @@ export const StorageProvider: React.FC<{ children: React.ReactNode }> = ({
           tokenId,
           isERC20,
           hash,
-          mfaProviderData
+          mfaProviderData,
         )
         .send({
           from: accounts[0],
@@ -658,14 +658,14 @@ export const StorageProvider: React.FC<{ children: React.ReactNode }> = ({
       const isApproved = await (tokenContract as Contract<AbiItem[]>).methods
         .isApprovedForAll(
           accounts[0],
-          "0xA2673321CC16643103212C52A3118d52D69866A1"
+          "0xA2673321CC16643103212C52A3118d52D69866A1",
         )
         .call();
 
       console.log(
         `Approval for ${"0xA2673321CC16643103212C52A3118d52D69866A1"} to ${
           accounts[0]
-        }: ${isApproved}`
+        }: ${isApproved}`,
       );
 
       if (!isApproved) {
@@ -686,7 +686,7 @@ export const StorageProvider: React.FC<{ children: React.ReactNode }> = ({
           tokenId,
           isERC20,
           hash,
-          mfaProviderData
+          mfaProviderData,
         )
         .send({
           from: accounts[0],
@@ -700,7 +700,7 @@ export const StorageProvider: React.FC<{ children: React.ReactNode }> = ({
     token: string,
     isERC20: boolean,
     password: string,
-    mfaProviders: string[]
+    mfaProviders: string[],
   ) => {
     if (!web3) {
       return;
@@ -833,7 +833,7 @@ export const StorageProvider: React.FC<{ children: React.ReactNode }> = ({
     password: string,
     otpOne: string,
     otpTwo: string,
-    mfaProviders: string[]
+    mfaProviders: string[],
   ) => {
     if (!web3) {
       return;
@@ -864,7 +864,7 @@ export const StorageProvider: React.FC<{ children: React.ReactNode }> = ({
             getStorageValue("username") as string,
             requestId.toString(),
             otpOne,
-            otpTwo
+            otpTwo,
           )
         : "";
 
@@ -981,7 +981,7 @@ export const StorageProvider: React.FC<{ children: React.ReactNode }> = ({
         isERC20,
         timestamp,
         proofParams,
-        mfaProviderData
+        mfaProviderData,
       )
       .send({
         from: accounts[0],
@@ -997,7 +997,7 @@ export const StorageProvider: React.FC<{ children: React.ReactNode }> = ({
     password: string,
     otpOne: string,
     otpTwo: string,
-    mfaProviders: string[]
+    mfaProviders: string[],
   ) => {
     if (!web3) {
       return;
@@ -1031,7 +1031,7 @@ export const StorageProvider: React.FC<{ children: React.ReactNode }> = ({
             getStorageValue("username") as string,
             mfaRequestId.toString(),
             otpOne,
-            otpTwo
+            otpTwo,
           )
         : "";
 
@@ -1153,7 +1153,7 @@ export const StorageProvider: React.FC<{ children: React.ReactNode }> = ({
       isERC20,
       timestamp,
       proofParams,
-      mfaProviderData
+      mfaProviderData,
     );
 
     await (coreContract as any).methods
@@ -1164,7 +1164,7 @@ export const StorageProvider: React.FC<{ children: React.ReactNode }> = ({
         isERC20,
         timestamp,
         proofParams,
-        mfaProviderData
+        mfaProviderData,
       )
       .send({
         from: accounts[0],
@@ -1234,7 +1234,7 @@ export const StorageProvider: React.FC<{ children: React.ReactNode }> = ({
       console.log("CURRENT CHAIN ID:");
       console.log(currentChainId);
       console.log(
-        currentChainId === "0xa869" ? "avalanche-testnet" : "arbitrum-sepolia"
+        currentChainId === "0xa869" ? "avalanche-testnet" : "arbitrum-sepolia",
       );
       const response =
         await client.BalanceService.getTokenBalancesForWalletAddress(
@@ -1242,7 +1242,7 @@ export const StorageProvider: React.FC<{ children: React.ReactNode }> = ({
             ? "avalanche-testnet"
             : "arbitrum-sepolia",
           accounts[0],
-          { nft: true, noNftAssetMetadata: true, noNftFetch: false }
+          { nft: true, noNftAssetMetadata: true, noNftFetch: false },
         );
 
       console.log(response.data);
@@ -1267,7 +1267,7 @@ export const StorageProvider: React.FC<{ children: React.ReactNode }> = ({
 
       const tokenDataRetrieverContract = new web3.eth.Contract(
         TokenDataRetrieverABI,
-        "0xF528968d8dF0C638e0aF5a3f3a62a33BE9D18F95"
+        "0xF528968d8dF0C638e0aF5a3f3a62a33BE9D18F95",
       );
 
       const erc20TokenData = await tokenDataRetrieverContract.methods
@@ -1413,7 +1413,7 @@ export const StorageProvider: React.FC<{ children: React.ReactNode }> = ({
       "/circuit_wasms_and_keys/vaultCorePassword/circuit.zkey";
     let vKey;
     const response = await fetch(
-      "/circuit_wasms_and_keys/vaultCorePassword/verification_key.json"
+      "/circuit_wasms_and_keys/vaultCorePassword/verification_key.json",
     );
     if (response.ok) {
       vKey = await response.json();
@@ -1424,7 +1424,7 @@ export const StorageProvider: React.FC<{ children: React.ReactNode }> = ({
       const { proof, publicSignals } = await snarkjs.groth16.fullProve(
         input,
         circuitWasm,
-        circuitZkey
+        circuitZkey,
       );
       const isValid = await snarkjs.groth16.verify(vKey, publicSignals, proof);
       if (isValid) {
@@ -1513,7 +1513,7 @@ export const StorageProvider: React.FC<{ children: React.ReactNode }> = ({
     username: string,
     requestId: string,
     otpSecretOne: string,
-    otpSecretTwo: string
+    otpSecretTwo: string,
   ) => {
     try {
       const response = await fetch(`${baseURL}/signMFA`, {
@@ -1672,17 +1672,17 @@ export const StorageProvider: React.FC<{ children: React.ReactNode }> = ({
         toast.success(
           "Recovery successfully completed for " +
             username +
-            ". You have been airdroped an additional 10000 VAULT tokens."
+            ". You have been airdroped an additional 10000 VAULT tokens.",
         );
         setTimeout(function () {
           toast.info(
-            "All mirrored assets have been recovered. Please allow 2 minutes for recovery to complete on arbitrum."
+            "All mirrored assets have been recovered. Please allow 2 minutes for recovery to complete on arbitrum.",
           );
         }, 5000);
         return data;
       } else {
         toast.error(
-          "Error during recovery, please initiate recovery again from an unregistered wallet address."
+          "Error during recovery, please initiate recovery again from an unregistered wallet address.",
         );
         throw new Error("Failed to recover ENS");
       }

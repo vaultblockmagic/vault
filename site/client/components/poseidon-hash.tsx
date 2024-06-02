@@ -8,7 +8,7 @@ const loadWasm = async () => {
     const go = new Go();
     const wasmModule = await WebAssembly.instantiate(
       await (await fetch("/poseidon/main.wasm")).arrayBuffer(),
-      go.importObject
+      go.importObject,
     );
     go.run(wasmModule.instance);
     hashFunction = (globalThis as any).hash;

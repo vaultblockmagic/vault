@@ -2,7 +2,7 @@
 import { useMotionValue } from "framer-motion";
 import React, { useState, useEffect } from "react";
 import { useMotionTemplate, motion } from "framer-motion";
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils";
 
 export const EvervaultCard = ({ text, className }) => {
   let mouseX = useMotionValue(0);
@@ -28,7 +28,7 @@ export const EvervaultCard = ({ text, className }) => {
     <div
       className={cn(
         "p-0.5 bg-transparent aspect-square flex items-center justify-center w-full h-full relative",
-        className
+        className,
       )}
     >
       <div
@@ -44,7 +44,9 @@ export const EvervaultCard = ({ text, className }) => {
           <div className="relative h-24 w-24 rounded-full flex items-center justify-center text-white font-bold text-2xl">
             <div className="absolute w-full h-full bg-black/[0.8] blur-sm rounded-full" />
             <span className="text-white z-20 flex items-center justify-center transition-all duration-300 group-hover/card:translate-x-1 mr-2.5">
-              <span className="opacity-0 group-hover/card:opacity-100 transition-opacity duration-300">z</span>
+              <span className="opacity-0 group-hover/card:opacity-100 transition-opacity duration-300">
+                z
+              </span>
               {text}
             </span>
           </div>
