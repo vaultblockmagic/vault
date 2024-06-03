@@ -1,9 +1,13 @@
 <center><h1>Vault: Uncompromising Asset Security & Account Abstraction</h1></center>
 
-## Introduction
-As the crypto space evolves, so do the cunning tactics of attackers exploiting vulnerabilities to steal valuable assets. Our team felt this sting first-hand when, just a month before the hackathon, one of our members lost tens of thousands of dollars in an elaborate clipper attack. With Vault, he could have effortlessly recovered his assets.
+<img src="https://github.com/vaultblockmagic/vault/assets/169519447/58342fc3-96e8-42a3-b29c-31f00892be07" alt="d1" width="48%" style="display: inline-block;"/> <img src="https://github.com/vaultblockmagic/vault/assets/169519447/26d458a9-87ef-496d-a85d-351012bb8b7a" alt="d2" width="48%" style="display: inline-block;"/>
+<img src="https://github.com/vaultblockmagic/vault/assets/169519447/560e5a01-28cc-4112-a1a2-2612639b71bc" alt="d3" width="32%" style="display: inline-block;"/> <img src="https://github.com/vaultblockmagic/vault/assets/169519447/d93794fb-0ee3-46ba-a718-342353976389" alt="d4" width="32%" style="display: inline-block;"/> <img src="https://github.com/vaultblockmagic/vault/assets/169519447/ccb5fa99-d939-434c-8362-6af0590af170" alt="d5" width="32%" style="display: inline-block;"/>
 
-Vault was born from the need for unmatched, customizable security for digital assets. By harnessing cutting-edge technologies like Zero-Knowledge Proofs (ZKPs) and Multi-Factor Authentication (MFA), Vault aims to safeguard user funds, even if their wallets are compromised.
+## Introduction: A Secure Method for Users & Protocol to Safeguard & Recover Assets With Custom Web2/Web3 MFA
+   
+As the crypto space evolves, so do the cunning tactics of attackers exploiting vulnerabilities to steal valuable assets. Our team felt this sting first-hand when, just a month before the hackathon, one of our members lost tens of thousands of dollars in an elaborate keyboard clipper attack. With Vault, he could have effortlessly recovered his assets.
+
+Vault was born from the need for unmatched, customizable security for digital assets. By harnessing cutting-edge technologies like custom Web2/Web3 Multi-Factor Authentication (MFA) and Zero-Knowledge Proofs (ZKPs), Vault aims to safeguard users' assets, even if their wallets are compromised.
 
 ## What it does
 #### Some of the core features of Vault:
