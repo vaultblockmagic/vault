@@ -9,6 +9,8 @@ As the crypto space evolves, so do the cunning tactics of attackers exploiting v
 
 Vault was born from the need for unmatched, customizable security for digital assets. By harnessing cutting-edge technologies like custom Web2/Web3 Multi-Factor Authentication (MFA), Zero-Knowledge Proofs (ZKPs), and Account Abstraction, Vault aims to safeguard users' assets, even if their wallets are compromised.
 
+---
+
 #### Live Demo
 
 The live version of this dApp can be found at https://vault.express
@@ -22,6 +24,8 @@ Please find all relevant documentation perataining to smart contracts under `con
 
 #### ZK Circuits
 Pleae find all relevant documentation perataining to smart contracts under `circuits/README.md`.
+
+---
 
 ## What it does
 #### Some of the core features of Vault:
@@ -43,13 +47,13 @@ Pleae find all relevant documentation perataining to smart contracts under `circ
 - We also demonstrate how EIP-191 Signatures can be used by any Web2/Web3 MFA source to sign a message gaslessly that can be easily verified on chain.
 - Zero Knowledge Proofs are integrated to demonstrate a fully on-chain, trustless MFA provider that requires setting a password and proving konwledge of a password through our dApp without revealing sensitive user secrets.
 - Any custom MFA logic can be implemented and integrated by simply leveraging our simple IMFA interface.
-
+  
 ## How we built it
-**1.** Designing the ZKP circuits and smart contract architecture
-**2.** Implementing and testing the smart contracts on the Avalanche Fuji testnet and Arbitrum Sepolia testnet
-**3.** Creating UI mockups on Figma and building the front-end dApp
-**4.** Integrating with MFA providers and testing the security layers
-**5.** Conducting thorough testing before deploying
+1. Designing the ZKP circuits and smart contract architecture
+2. Implementing and testing the smart contracts on the Avalanche Fuji testnet and Arbitrum Sepolia testnet
+3. Creating UI mockups on Figma and building the front-end dApp
+4. Integrating with MFA providers and testing the security layers
+5. Conducting thorough testing before deploying
 
 ## Challenges we ran into
 
@@ -92,5 +96,7 @@ We firmly believe that Vault has the potential to revolutionize asset security i
 One of the most promising applications for Vault lies in Decentralized Finance (DeFi). With the growing popularity of liquid staking and the increasing value locked in DeFi protocols, the need for robust asset security solutions has never been more pressing. We intend to actively engage with DeFi protocols that offer staking services, exploring potential integrations of our vaulting and locking mechanisms into their platforms. By doing so, we aim to provide users with an additional layer of security, ensuring the safety of their staked assets and fostering greater confidence in the DeFi ecosystem as a whole.
 
 In addition to our focus on DeFi, we plan to continue refining the Vault protocol based on user feedback and emerging market needs. This product serves general Web3 users simply trying to protect their assets as well. Our team will dedicate resources to optimizing the user experience, streamlining the asset management process, and introducing new features that enhance the flexibility and usability of our solution.
+
+---
 
 *We invite all interested parties to follow us and offer feedback as we work towards building a safer and more secure future for digital assets.*
