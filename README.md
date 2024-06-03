@@ -7,7 +7,21 @@
    
 As the crypto space evolves, so do the cunning tactics of attackers exploiting vulnerabilities to steal valuable assets. Our team felt this sting first-hand when, just a month before the hackathon, one of our members lost tens of thousands of dollars in an elaborate keyboard clipper attack. With Vault, he could have effortlessly recovered his assets.
 
-Vault was born from the need for unmatched, customizable security for digital assets. By harnessing cutting-edge technologies like custom Web2/Web3 Multi-Factor Authentication (MFA) and Zero-Knowledge Proofs (ZKPs), Vault aims to safeguard users' assets, even if their wallets are compromised.
+Vault was born from the need for unmatched, customizable security for digital assets. By harnessing cutting-edge technologies like custom Web2/Web3 Multi-Factor Authentication (MFA), Zero-Knowledge Proofs (ZKPs), and Account Abstraction, Vault aims to safeguard users' assets, even if their wallets are compromised.
+
+#### Live Demo
+
+The live version of this dApp can be found at https://vault.express
+
+#### Run a local installation of the dApp
+Please follow the steps under `/site/client/README.md` to run the dApp locally.
+
+#### Contracts
+
+Please find all relevant documentation perataining to smart contracts under `contracts/README.md`.
+
+#### ZK Circuits
+Pleae find all relevant documentation perataining to smart contracts under `circuits/README.md`.
 
 ## What it does
 #### Some of the core features of Vault:
@@ -16,19 +30,23 @@ Vault was born from the need for unmatched, customizable security for digital as
   
 - **Unvaulting**: Unvaulting an asset requires completing any and all security layers applied and exchanging the mirrored assets minted at the time of vaulting to get your original assets back.
 
-- **Lock**: Locking an asset disables all outgoing transfers until unlocked.
+- **Lock**: Locking an asset disables all outgoing transfers until unlocked for additional security.
     A user can lock an asset using any combination of the following methods: 
-    - **Time**: A user can select a date and time for when the token will be unlocked and transferrable.
-    - **MFA**: A user can apply a variety of MFA security layers which must be performed to unlock the token and make it transferrable.
+    - **Time**: A user can select a date and time for when the token will be unlocked and transferrable (including infinite).
+    - **MFA**: A user can apply a variety of MFA security layers (any number and in any order) which must be performed to unlock the token and make it transferrable.
 
+- **Asset Recovery**: If an asset is vaulted and subsequently compromised or in a lost wallet, a user can use our recovery system to retrieve these assets into a new, secure wallet.
 
-- **Asset Recovery**: If an asset is vaulted and subsequently compromised or in a lost wallet, a user can use our ENS recovery system to retrieve these assets into a new, secure wallet.
+### Chainlink, Gasless EIP-191 Signatures, & Zero Knowledge Proofs
 
-We leverage Chainlink services to facilitate many of these functionalities. CCIP is used as a cross-chain ENS resolver. Chainlink Functions, with the help of automation and VRF, allow us to leverage any Web2 API as an MFA source (e.g., Google or Microsoft Authenticator). The primary benefit of Chainlink Automation and VRF is that they demonstrate how an easily verifiable, low-cost source of on-chain randomness can be used for custom MFA slats and other operations.
+- We leverage Chainlink services to facilitate many of these functionalities. CCIP is used as a cross-chain ENS resolver. Chainlink Functions, with the help of automation and VRF, allow anyone to leverage any Web2 API/Web3 as an MFA source. The primary benefit of Chainlink Automation and VRF is that they demonstrate how an easily verifiable, global, low-cost source of on-chain randomness/entropy can be used for MFA salts and other operations, while the Chainlink Function is used to make an external call to any API and verify the results as needed and checking them with the current global salt, etc. 
+- We also demonstrate how EIP-191 Signatures can be used by any Web2/Web3 MFA source to sign a message gaslessly that can be easily verified on chain.
+- Zero Knowledge Proofs are integrated to demonstrate a fully on-chain, trustless MFA provider that requires setting a password and proving konwledge of a password through our dApp without revealing sensitive user secrets.
+- Any custom MFA logic can be implemented and integrated by simply leveraging our simple IMFA interface.
 
 ## How we built it
 **1.** Designing the ZKP circuits and smart contract architecture
-**2.** Implementing and testing the smart contracts on the Arbitrum Sepolia and Avalanche Fuji testnet
+**2.** Implementing and testing the smart contracts on the Avalanche Fuji testnet and Arbitrum Sepolia testnet
 **3.** Creating UI mockups on Figma and building the front-end dApp
 **4.** Integrating with MFA providers and testing the security layers
 **5.** Conducting thorough testing before deploying
@@ -76,17 +94,3 @@ One of the most promising applications for Vault lies in Decentralized Finance (
 In addition to our focus on DeFi, we plan to continue refining the Vault protocol based on user feedback and emerging market needs. This product serves general Web3 users simply trying to protect their assets as well. Our team will dedicate resources to optimizing the user experience, streamlining the asset management process, and introducing new features that enhance the flexibility and usability of our solution.
 
 *We invite all interested parties to follow us and offer feedback as we work towards building a safer and more secure future for digital assets.*
-
-#### Live Demo
-
-The live version of this dApp can be found at https://vault.express
-
-#### Run a local installation of the dApp
-Please follow the steps under `/site/client/README.md` to run the dApp locally.
-
-#### Contracts
-
-Please find all relevant documentation perataining to smart contracts under `contracts/README.md`.
-
-#### ZK Circuits
-Pleae find all relevant documentation perataining to smart contracts under `circuits/README.md`.
